@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Yönetimi - Onsal Elektronik Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Banner sayfasına özel stiller */
+        .banner-preview {
+            width: 100%;
+            height: 180px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 10px;
+        }
+        
+        .banner-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .banner-preview-remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--danger-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .banner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .banner-item {
+            background-color: var(--white-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .banner-item:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .banner-image {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .banner-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .banner-item:hover .banner-image img {
+            transform: scale(1.05);
+        }
+        
+        .banner-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+        }
+        
+        .banner-content {
+            padding: 15px;
+        }
+        
+        .banner-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .banner-dates {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--gray-color);
+            margin-bottom: 15px;
+        }
+        
+        .banner-dates i {
+            margin-right: 5px;
+        }
+        
+        .banner-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Admin</h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="products-list">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="categories">
+                    <i class="fas fa-tags"></i>
+                    <span>Kategoriler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="banners">
+                    <i class="fas fa-images"></i>
+                    <span>Banner</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </div>
+                <div class="sidebar-menu-item" id="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="admin-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="page-header">
+                    <h1>Banner Yönetimi</h1>
+                    <p>Ana sayfa ve kategori sayfalarındaki banner görünümlerini düzenleyin</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Banner Listesi</h2>
+                        <p>Bu sayfa henüz geliştirme aşamasındadır.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="action-buttons mb-20">
+                            <button class="btn btn-primary" id="add-banner-button">
+                                <i class="fas fa-plus"></i> Yeni Banner Ekle
+                            </button>
+                        </div>
+                        
+                        <div class="section-title">Aktif Bannerlar</div>
+                        <div class="banner-grid">
+                            <div class="banner-item">
+                                <div class="banner-image">
+                                    <img src="https://via.placeholder.com/600x300?text=Banner+1" alt="Banner">
+                                    <div class="banner-status">
+                                        <span class="badge badge-success">Aktif</span>
+                                    </div>
+                                </div>
+                                <div class="banner-content">
+                                    <h3 class="banner-title">Ana Sayfa Banner - Kampanya</h3>
+                                    <div class="banner-dates">
+                                        <i class="far fa-calendar-alt"></i> 01.06.2023 - 30.06.2023
+                                    </div>
+                                    <div class="banner-actions">
+                                        <button class="btn btn-sm btn-outline-primary edit-banner" data-id="1" data-type="homepage">
+                                            <i class="fas fa-edit"></i> Düzenle
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger delete-banner" data-id="1">
+                                            <i class="fas fa-trash"></i> Sil
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="banner-item">
+                                <div class="banner-image">
+                                    <img src="https://via.placeholder.com/600x300?text=Banner+2" alt="Banner">
+                                    <div class="banner-status">
+                                        <span class="badge badge-success">Aktif</span>
+                                    </div>
+                                </div>
+                                <div class="banner-content">
+                                    <h3 class="banner-title">Televizyon Kategori Banner</h3>
+                                    <div class="banner-dates">
+                                        <i class="far fa-calendar-alt"></i> 01.06.2023 - 30.06.2023
+                                    </div>
+                                    <div class="banner-actions">
+                                        <button class="btn btn-sm btn-outline-primary edit-banner" data-id="2" data-type="category-tv">
+                                            <i class="fas fa-edit"></i> Düzenle
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger delete-banner" data-id="2">
+                                            <i class="fas fa-trash"></i> Sil
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Banner Ekleme/Düzenleme Modalı -->
+    <div class="modal" id="banner-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="banner-modal-title">Yeni Banner Ekle</h3>
+                    <button type="button" class="modal-close" id="banner-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="banner-form">
+                        <input type="hidden" id="banner-id" value="">
+                        <input type="hidden" id="banner-type" value="homepage">
+                        
+                        <div class="form-group">
+                            <label for="banner-title">Banner Başlığı <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="banner-title" name="banner-title" placeholder="Banner başlığını girin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="banner-link">Banner Linki</label>
+                            <input type="text" class="form-control" id="banner-link" name="banner-link" placeholder="https://...">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="banner-start-date">Başlangıç Tarihi</label>
+                                    <input type="date" class="form-control" id="banner-start-date" name="banner-start-date">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="banner-end-date">Bitiş Tarihi</label>
+                                    <input type="date" class="form-control" id="banner-end-date" name="banner-end-date">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="banner-status">Durum</label>
+                                    <select class="form-control" id="banner-status" name="banner-status">
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Pasif</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="banner-location">Gösterim Alanı</label>
+                                    <select class="form-control" id="banner-location" name="banner-location">
+                                        <option value="homepage">Ana Sayfa</option>
+                                        <option value="category-tv">Televizyon Kategori</option>
+                                        <option value="category-beyaz-esya">Beyaz Eşya Kategori</option>
+                                        <option value="category-kucuk-ev-aletleri">Küçük Ev Aletleri Kategori</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="banner-image">Banner Görseli <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control-file" id="banner-image" name="banner-image" accept="image/*">
+                            <small>Önerilen boyut: 1600x800 piksel. Maksimum dosya boyutu: 2MB</small>
+                        </div>
+                        
+                        <div id="banner-preview" class="banner-preview"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="banner-modal-cancel">İptal</button>
+                    <button type="button" class="btn btn-primary" id="banner-modal-save">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Banner Silme Modalı -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Banner Sil</h3>
+                    <button type="button" class="modal-close" id="delete-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong id="delete-banner-title">Banner başlığı</strong> adlı banner'ı silmek istediğinize emin misiniz?
+                    </p>
+                    <p>Bu işlem geri alınamaz.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="delete-modal-cancel">İptal</button>
+                    <button type="button" class="btn btn-danger" id="delete-modal-confirm">Evet, Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/admin-helpers.js"></script>
+    <script src="../js/admin-navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Giriş kontrolü
+            if (!localStorage.getItem('adminLoggedIn')) {
+                localStorage.setItem('adminLoggedIn', 'true'); // Geliştirme aşamasında otomatik login
+            }
+            
+            // Aktif menü öğesini işaretle
+            const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+            document.querySelectorAll('.sidebar-menu-item').forEach(function(item) {
+                const itemPage = item.getAttribute('data-page');
+                if (itemPage === currentPage) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Sayfa geçişleri
+            document.querySelectorAll('.sidebar-menu-item').forEach(function(item) {
+                if (item.id === 'logout-button') {
+                    item.addEventListener('click', function() {
+                        localStorage.removeItem('adminLoggedIn');
+                        window.location.href = 'index.html';
+                    });
+                    return;
+                }
+                
+                const page = item.getAttribute('data-page');
+                if (page) {
+                    item.style.cursor = "pointer";
+                    item.addEventListener('click', function() {
+                        window.location.href = page + '.html';
+                    });
+                }
+            });
+            
+            // Mobil menü açma/kapama
+            document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('active');
+            });
+            
+            // Banner Ekleme Modalı
+            const addBannerButton = document.getElementById('add-banner-button');
+            const bannerModal = document.getElementById('banner-modal');
+            const bannerModalTitle = document.getElementById('banner-modal-title');
+            const bannerModalClose = document.getElementById('banner-modal-close');
+            const bannerModalCancel = document.getElementById('banner-modal-cancel');
+            const bannerModalSave = document.getElementById('banner-modal-save');
+            const bannerForm = document.getElementById('banner-form');
+            const bannerId = document.getElementById('banner-id');
+            const bannerTitle = document.getElementById('banner-title');
+            const bannerImage = document.getElementById('banner-image');
+            const bannerPreview = document.getElementById('banner-preview');
+            
+            // Banner görsel yükleme
+            if (bannerImage) {
+                bannerImage.addEventListener('change', async function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        
+                        // Upload Handler kullanarak dosya yükleme
+                        const result = await UploadHandler.uploadFile(file, 'banners');
+                        
+                        if (result.success) {
+                            bannerPreview.innerHTML = '';
+                            
+                            const img = document.createElement('img');
+                            img.src = result.filePath;
+                            img.alt = 'Banner Preview';
+                            img.dataset.path = result.filePath;
+                            
+                            const removeButton = document.createElement('span');
+                            removeButton.className = 'banner-preview-remove';
+                            removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                            removeButton.addEventListener('click', function() {
+                                bannerPreview.innerHTML = '';
+                            });
+                            
+                            bannerPreview.appendChild(img);
+                            bannerPreview.appendChild(removeButton);
+                        } else {
+                            alert('Dosya yüklenirken bir hata oluştu: ' + result.error);
+                        }
+                    }
+                });
+            }
+            
+            // Banner Modal işlemleri
+            if (addBannerButton && bannerModal) {
+                // Ekle butonuna tıklanınca
+                addBannerButton.addEventListener('click', function() {
+                    // Form resetleme
+                    bannerForm.reset();
+                    bannerId.value = '';
+                    bannerPreview.innerHTML = '';
+                    
+                    // Modal başlığını güncelleme
+                    bannerModalTitle.textContent = 'Yeni Banner Ekle';
+                    
+                    // Bugünün tarihini başlangıç tarihi olarak ayarla
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('banner-start-date').value = today;
+                    
+                    // 1 ay sonrasını bitiş tarihi olarak ayarla
+                    const nextMonth = new Date();
+                    nextMonth.setMonth(nextMonth.getMonth() + 1);
+                    document.getElementById('banner-end-date').value = nextMonth.toISOString().split('T')[0];
+                    
+                    // Modalı açma
+                    bannerModal.classList.add('show');
+                });
+                
+                // Modal kapatma işlemleri
+                if (bannerModalClose) {
+                    bannerModalClose.addEventListener('click', function() {
+                        bannerModal.classList.remove('show');
+                    });
+                }
+                
+                if (bannerModalCancel) {
+                    bannerModalCancel.addEventListener('click', function() {
+                        bannerModal.classList.remove('show');
+                    });
+                }
+            }
+            
+            // Banner düzenleme modalını açma
+            const editBannerButtons = document.querySelectorAll('.edit-banner');
+            
+            editBannerButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.getAttribute('data-type');
+                    const bannerItem = this.closest('.banner-item');
+                    const title = bannerItem.querySelector('.banner-title').textContent;
+                    const isActive = bannerItem.querySelector('.badge').classList.contains('bg-success');
+                    const dates = bannerItem.querySelector('.banner-dates').textContent.replace('i', '').trim().split(' - ');
+                    
+                    // Form doldurma
+                    bannerId.value = id;
+                    document.getElementById('banner-type').value = type;
+                    bannerTitle.value = title;
+                    
+                    // Tarih formatını düzeltme kısmına exception handling eklenmeli
+                    try {
+                        const startDateParts = dates[0].split('.');
+                        const endDateParts = dates[1].split('.');
+                        
+                        if (startDateParts.length === 3 && endDateParts.length === 3) {
+                            document.getElementById('banner-start-date').value = `${startDateParts[2]}-${startDateParts[1]}-${startDateParts[0]}`;
+                            document.getElementById('banner-end-date').value = `${endDateParts[2]}-${endDateParts[1]}-${endDateParts[0]}`;
+                        }
+                    } catch (error) {
+                        console.error('Tarih formatlama hatası:', error);
+                        alert('Geçersiz tarih formatı! Lütfen DD.MM.YYYY formatında girin.');
+                    }
+                    
+                    // Durum ayarla
+                    document.getElementById('banner-status').value = isActive ? '1' : '0';
+                    
+                    // Banner lokasyonu ayarla
+                    document.getElementById('banner-location').value = type === 'homepage' ? 'homepage' : 'category-tv';
+                    
+                    // Banner preview görseli ekle
+                    const imgSrc = bannerItem.querySelector('.banner-image img').src;
+                    bannerPreview.innerHTML = '';
+                    
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = 'Banner Preview';
+                    
+                    const removeButton = document.createElement('span');
+                    removeButton.className = 'banner-preview-remove';
+                    removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                    removeButton.addEventListener('click', function() {
+                        bannerPreview.innerHTML = '';
+                    });
+                    
+                    bannerPreview.appendChild(img);
+                    bannerPreview.appendChild(removeButton);
+                    
+                    // Modal başlığını güncelleme
+                    bannerModalTitle.textContent = 'Banner Düzenle';
+                    
+                    // Modalı açma
+                    bannerModal.classList.add('show');
+                });
+            });
+            
+            // Banner kaydetme
+            if (bannerModalSave && bannerForm) {
+                bannerModalSave.addEventListener('click', function() {
+                    // Form doğrulama
+                    if (!bannerTitle.value.trim()) {
+                        alert('Banner başlığı boş olamaz.');
+                        bannerTitle.focus();
+                        return;
+                    }
+                    
+                    if (!bannerPreview.querySelector('img') && !bannerImage.files.length) {
+                        alert('Lütfen bir banner görseli yükleyin.');
+                        return;
+                    }
+                    
+                    // Demo: Yeni banner ekleme veya mevcut banner'ı güncelleme
+                    const isNewBanner = !bannerId.value;
+                    
+                    if (isNewBanner) {
+                        // Yeni banner eklendiğinde burası çalışacak
+                        alert(`"${bannerTitle.value}" adlı banner başarıyla eklendi.`);
+                    } else {
+                        // Mevcut banner güncellendiğinde burası çalışacak
+                        alert(`"${bannerTitle.value}" adlı banner başarıyla güncellendi.`);
+                    }
+                    
+                    // Modalı kapatma
+                    bannerModal.classList.remove('show');
+                });
+            }
+            
+            // Banner Silme Modalı
+            const deleteBannerButtons = document.querySelectorAll('.delete-banner');
+            const deleteModal = document.getElementById('delete-modal');
+            const deleteModalClose = document.getElementById('delete-modal-close');
+            const deleteModalCancel = document.getElementById('delete-modal-cancel');
+            const deleteModalConfirm = document.getElementById('delete-modal-confirm');
+            const deleteBannerTitle = document.getElementById('delete-banner-title');
+            
+            // Silme modalını açma
+            deleteBannerButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const title = this.getAttribute('data-title');
+                    
+                    // Silme modalını doldurma
+                    deleteBannerTitle.textContent = title;
+                    deleteModalConfirm.setAttribute('data-id', id);
+                    
+                    // Modalı açma
+                    deleteModal.classList.add('show');
+                });
+            });
+            
+            // Silme modalını kapatma
+            if (deleteModalClose) {
+                deleteModalClose.addEventListener('click', function() {
+                    deleteModal.classList.remove('show');
+                });
+            }
+            
+            if (deleteModalCancel) {
+                deleteModalCancel.addEventListener('click', function() {
+                    deleteModal.classList.remove('show');
+                });
+            }
+            
+            // Silme işlemi
+            if (deleteModalConfirm) {
+                deleteModalConfirm.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    
+                    // Demo: Banner silme
+                    alert(`Banner başarıyla silindi (ID: ${id}).`);
+                    
+                    // Banner öğesini DOM'dan kaldır (gerçek uygulamada burada AJAX isteği olur)
+                    deleteBannerButtons.forEach(button => {
+                        if (button.getAttribute('data-id') === id) {
+                            const bannerItem = button.closest('.banner-item');
+                            if (bannerItem) {
+                                bannerItem.style.opacity = '0';
+                                setTimeout(() => {
+                                    bannerItem.remove();
+                                }, 300);
+                            }
+                        }
+                    });
+                    
+                    // Modalı kapatma
+                    deleteModal.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

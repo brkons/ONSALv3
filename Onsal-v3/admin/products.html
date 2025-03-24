@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürünler - Onsal Elektronik Yönetim Paneli</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="refresh" content="0;url=products-list.html">
+    <script type="text/javascript">
+        window.location.href = 'products-list.html';
+    </script>
+</head>
+<body>
+    <p>Ürün listesine yönlendiriliyorsunuz. Otomatik olarak yönlendirilmediyseniz, <a href="products-list.html">buraya tıklayın</a>.</p>
+    <script type="text/javascript">
+        // Kategori seçimini doldur
+        function populateCategorySelect() {
+            const categorySelect = document.getElementById('product-category');
+            categorySelect.innerHTML = '<option value="">Kategori Seçin</option>';
+            
+            try {
+                const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = cat.name;
+                    categorySelect.appendChild(option);
+                });
+            } catch (e) {
+                console.error("Kategoriler yüklenirken hata:", e);
+            }
+        }
+
+        // Sayfa yüklendiğinde çağır
+        document.addEventListener('DOMContentLoaded', function() {
+            populateCategorySelect();
+            // ... diğer işlemler
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sosyal Medya Ayarları - Onsal Elektronik Yönetim</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Elektronik</h2>
+                <p>Yönetim Paneli</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Kontrol Paneli</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="products">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="products-list">
+                        <i class="fas fa-list"></i>
+                        <span>Ürün Listesi</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="products-add">
+                        <i class="fas fa-plus"></i>
+                        <span>Ürün Ekle</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="products-categories">
+                        <i class="fas fa-tags"></i>
+                        <span>Kategoriler</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="pages-home">
+                        <i class="fas fa-home"></i>
+                        <span>Ana Sayfa</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="pages-about">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Hakkımızda</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="pages-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>İletişim</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="media">
+                    <i class="fas fa-images"></i>
+                    <span>Medya</span>
+                </li>
+                
+                <li class="sidebar-menu-item active" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu open">
+                    <li class="sidebar-submenu-item" data-page="settings-general">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Genel Ayarlar</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="settings-seo">
+                        <i class="fas fa-search"></i>
+                        <span>SEO Ayarları</span>
+                    </li>
+                    <li class="sidebar-submenu-item active" data-page="settings-social">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Sosyal Medya</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="users">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış Yap</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="header-title">Sosyal Medya Ayarları</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-user" id="header-user">
+                        <div class="header-user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="header-user-name">Admin</div>
+                        <i class="fas fa-chevron-down ml-2"></i>
+                        
+                        <div class="header-user-dropdown" id="header-user-dropdown">
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Profil</span>
+                            </a>
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Ayarlar</span>
+                            </a>
+                            <a href="index.html" class="header-user-dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <div class="alert alert-success" id="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Ayarlar başarıyla kaydedildi!</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Sosyal Medya Hesapları</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="social-accounts-form">
+                            <div class="form-group">
+                                <label for="facebook-url">
+                                    <i class="fab fa-facebook" style="color: #3b5998;"></i> Facebook
+                                </label>
+                                <input type="url" id="facebook-url" class="form-control" value="https://www.facebook.com/onsalelektronik" placeholder="https://www.facebook.com/sayfaniz">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="instagram-url">
+                                    <i class="fab fa-instagram" style="color: #e1306c;"></i> Instagram
+                                </label>
+                                <input type="url" id="instagram-url" class="form-control" value="https://www.instagram.com/onsalelektronik" placeholder="https://www.instagram.com/kullaniciadiniz">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="twitter-url">
+                                    <i class="fab fa-twitter" style="color: #1da1f2;"></i> Twitter
+                                </label>
+                                <input type="url" id="twitter-url" class="form-control" value="https://twitter.com/onsalelektronik" placeholder="https://twitter.com/kullaniciadiniz">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="youtube-url">
+                                    <i class="fab fa-youtube" style="color: #ff0000;"></i> YouTube
+                                </label>
+                                <input type="url" id="youtube-url" class="form-control" value="https://www.youtube.com/channel/UCxxxxxxxxxxxxxxxx" placeholder="https://www.youtube.com/channel/kanaliniz">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="linkedin-url">
+                                    <i class="fab fa-linkedin" style="color: #0077b5;"></i> LinkedIn
+                                </label>
+                                <input type="url" id="linkedin-url" class="form-control" value="https://www.linkedin.com/company/onsalelektronik" placeholder="https://www.linkedin.com/company/sirketiniz">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pinterest-url">
+                                    <i class="fab fa-pinterest" style="color: #bd081c;"></i> Pinterest
+                                </label>
+                                <input type="url" id="pinterest-url" class="form-control" value="" placeholder="https://www.pinterest.com/kullaniciadiniz">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tiktok-url">
+                                    <i class="fab fa-tiktok" style="color: #000000;"></i> TikTok
+                                </label>
+                                <input type="url" id="tiktok-url" class="form-control" value="" placeholder="https://www.tiktok.com/@kullaniciadiniz">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Sosyal Medya Paylaşım Ayarları</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="social-sharing-form">
+                            <div class="form-group">
+                                <label>Sosyal Medya Paylaşım Butonları</label>
+                                <div class="form-check">
+                                    <input type="checkbox" id="enable-sharing" class="form-check-input" checked>
+                                    <label for="enable-sharing" class="form-check-label">Paylaşım Butonlarını Etkinleştir</label>
+                                </div>
+                                <small class="form-text">Ürün ve sayfalarda sosyal medya paylaşım butonlarını gösterir.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Paylaşım Butonları</label>
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    <div class="form-check" style="margin-right: 20px;">
+                                        <input type="checkbox" id="share-facebook" class="form-check-input" checked>
+                                        <label for="share-facebook" class="form-check-label">
+                                            <i class="fab fa-facebook" style="color: #3b5998;"></i> Facebook
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check" style="margin-right: 20px;">
+                                        <input type="checkbox" id="share-twitter" class="form-check-input" checked>
+                                        <label for="share-twitter" class="form-check-label">
+                                            <i class="fab fa-twitter" style="color: #1da1f2;"></i> Twitter
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check" style="margin-right: 20px;">
+                                        <input type="checkbox" id="share-linkedin" class="form-check-input" checked>
+                                        <label for="share-linkedin" class="form-check-label">
+                                            <i class="fab fa-linkedin" style="color: #0077b5;"></i> LinkedIn
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check" style="margin-right: 20px;">
+                                        <input type="checkbox" id="share-pinterest" class="form-check-input" checked>
+                                        <label for="share-pinterest" class="form-check-label">
+                                            <i class="fab fa-pinterest" style="color: #bd081c;"></i> Pinterest
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check" style="margin-right: 20px;">
+                                        <input type="checkbox" id="share-whatsapp" class="form-check-input" checked>
+                                        <label for="share-whatsapp" class="form-check-label">
+                                            <i class="fab fa-whatsapp" style="color: #25d366;"></i> WhatsApp
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input type="checkbox" id="share-email" class="form-check-input" checked>
+                                        <label for="share-email" class="form-check-label">
+                                            <i class="fas fa-envelope" style="color: #333333;"></i> E-posta
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Paylaşım Butonları Konumu</label>
+                                <div class="form-check">
+                                    <input type="checkbox" id="share-position-top" class="form-check-input" checked>
+                                    <label for="share-position-top" class="form-check-label">Ürün Bilgilerinin Üstünde</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="share-position-bottom" class="form-check-input" checked>
+                                    <label for="share-position-bottom" class="form-check-label">Ürün Bilgilerinin Altında</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="share-text">Paylaşım Metni</label>
+                                <input type="text" id="share-text" class="form-control" value="Bu ürünü beğendim: {product_name} - {product_url}">
+                                <small class="form-text">Sosyal medyada paylaşılacak varsayılan metin. {product_name} ve {product_url} değişkenleri otomatik olarak değiştirilecektir.</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Sosyal Medya Önizleme</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="social-preview-form">
+                            <div class="form-group">
+                                <label for="og-title">Open Graph Başlık</label>
+                                <input type="text" id="og-title" class="form-control" value="Onsal Elektronik - Kaliteli Elektronik Ürünlerin Adresi">
+                                <small class="form-text">Sosyal medyada paylaşıldığında görünecek başlık.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="og-description">Open Graph Açıklama</label>
+                                <textarea id="og-description" class="form-control" rows="3">Onsal Elektronik, televizyon, beyaz eşya, küçük ev aletleri ve kişisel bakım ürünleri gibi elektronik ürünlerin satışını yapan bir e-ticaret sitesidir.</textarea>
+                                <small class="form-text">Sosyal medyada paylaşıldığında görünecek açıklama.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Open Graph Görsel</label>
+                                
+                                <div class="file-upload">
+                                    <input type="file" id="og-image" class="file-upload-input" accept="image/*">
+                                    <div class="file-upload-button">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span>Görsel Yüklemek İçin Tıklayın</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="og-image-preview" id="og-image-preview" style="margin-top: 15px; display: block;">
+                                    <div style="position: relative; width: 300px; border: 1px solid var(--border-color); border-radius: 5px; overflow: hidden;">
+                                        <img id="og-image-preview-img" src="https://via.placeholder.com/1200x630?text=Onsal+Elektronik" alt="Open Graph Görsel" style="width: 100%; height: auto;">
+                                        <button type="button" id="og-image-remove" style="position: absolute; top: 5px; right: 5px; background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <small class="form-text" style="margin-top: 5px;">Önerilen boyut: 1200 x 630 piksel</small>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="twitter-card">Twitter Kart Tipi</label>
+                                <select id="twitter-card" class="form-control">
+                                    <option value="summary">Summary</option>
+                                    <option value="summary_large_image" selected>Summary Large Image</option>
+                                </select>
+                                <small class="form-text">Twitter'da paylaşıldığında görünecek kart tipi.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="twitter-site">Twitter Site Kullanıcı Adı</label>
+                                <input type="text" id="twitter-site" class="form-control" value="@onsalelektronik">
+                                <small class="form-text">Twitter'da paylaşıldığında görünecek site kullanıcı adı.</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card-footer" style="margin-top: 20px; background-color: var(--white-color); padding: 15px; border-radius: 5px; box-shadow: 0 5px 15px var(--shadow-color); display: flex; justify-content: flex-end;">
+                    <button type="button" class="btn btn-light" id="reset-button" style="margin-right: 10px;">
+                        <i class="fas fa-undo"></i> Sıfırla
+                    </button>
+                    
+                    <button type="button" class="btn btn-primary" id="save-button">
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Sidebar Menu Toggle
+            const menuItems = document.querySelectorAll('.sidebar-menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const submenu = this.nextElementSibling;
+                    
+                    if (submenu && submenu.classList.contains('sidebar-submenu')) {
+                        submenu.classList.toggle('open');
+                        this.classList.toggle('active');
+                    } else {
+                        menuItems.forEach(menuItem => {
+                            menuItem.classList.remove('active');
+                        });
+                        
+                        this.classList.add('active');
+                        
+                        // Redirect to page
+                        const page = this.getAttribute('data-page');
+                        
+                        if (page === 'logout') {
+                            localStorage.removeItem('adminLoggedIn');
+                            window.location.href = 'index.html';
+                        } else if (page !== 'settings') {
+                            window.location.href = page + '.html';
+                        }
+                    }
+                });
+            });
+            
+            // Submenu Items
+            const submenuItems = document.querySelectorAll('.sidebar-submenu-item');
+            
+            submenuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    submenuItems.forEach(submenuItem => {
+                        submenuItem.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
+                    
+                    // Redirect to page
+                    const page = this.getAttribute('data-page');
+                    
+                    if (page !== 'settings-social') {
+                        window.location.href = page + '.html';
+                    }
+                });
+            });
+            
+            // Header User Dropdown
+            const headerUser = document.getElementById('header-user');
+            const headerUserDropdown = document.getElementById('header-user-dropdown');
+            
+            headerUser.addEventListener('click', function(e) {
+                e.stopPropagation();
+                headerUserDropdown.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!headerUser.contains(e.target)) {
+                    headerUserDropdown.classList.remove('show');
+                }
+            });
+            
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            
+            if (!isLoggedIn) {
+                window.location.href = 'index.html';
+            }
+            
+            // Open Graph Image Preview
+            const ogImage = document.getElementById('og-image');
+            const ogImagePreview = document.getElementById('og-image-preview');
+            const ogImagePreviewImg = document.getElementById('og-image-preview-img');
+            const ogImageRemove = document.getElementById('og-image-remove');
+            
+            ogImage.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        ogImagePreviewImg.src = e.target.result;
+                        ogImagePreview.style.display = 'block';
+                    };
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            ogImageRemove.addEventListener('click', function() {
+                ogImage.value = '';
+                ogImagePreviewImg.src = 'https://via.placeholder.com/1200x630?text=Onsal+Elektronik';
+            });
+            
+            // Enable/Disable Sharing
+            const enableSharing = document.getElementById('enable-sharing');
+            const sharingOptions = document.querySelectorAll('#social-sharing-form input:not(#enable-sharing)');
+            
+            enableSharing.addEventListener('change', function() {
+                sharingOptions.forEach(option => {
+                    option.disabled = !this.checked;
+                });
+            });
+            
+            // Save Button
+            const saveButton = document.getElementById('save-button');
+            const resetButton = document.getElementById('reset-button');
+            const successMessage = document.getElementById('success-message');
+            
+            saveButton.addEventListener('click', function() {
+                // Demo save
+                successMessage.style.display = 'flex';
+                
+                // Scroll to top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Hide success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+            
+            // Reset Button
+            resetButton.addEventListener('click', function() {
+                if (confirm('Tüm değişiklikleriniz sıfırlanacak. Emin misiniz?')) {
+                    // Reset all forms
+                    document.getElementById('social-accounts-form').reset();
+                    document.getElementById('social-sharing-form').reset();
+                    document.getElementById('social-preview-form').reset();
+                    
+                    // Reset image
+                    ogImage.value = '';
+                    ogImagePreviewImg.src = 'https://via.placeholder.com/1200x630?text=Onsal+Elektronik';
+                    
+                    // Reset checkboxes
+                    enableSharing.checked = true;
+                    document.getElementById('share-facebook').checked = true;
+                    document.getElementById('share-twitter').checked = true;
+                    document.getElementById('share-linkedin').checked = true;
+                    document.getElementById('share-pinterest').checked = true;
+                    document.getElementById('share-whatsapp').checked = true;
+                    document.getElementById('share-email').checked = true;
+                    document.getElementById('share-position-top').checked = true;
+                    document.getElementById('share-position-bottom').checked = true;
+                    
+                    // Enable sharing options
+                    sharingOptions.forEach(option => {
+                        option.disabled = false;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

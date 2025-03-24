@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayarlar - Onsal Elektronik Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .settings-tabs {
+            display: flex;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .settings-tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .settings-tab.active {
+            background-color: white;
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .image-preview {
+            width: 150px;
+            height: 80px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .setting-section {
+            margin-bottom: 30px;
+        }
+        
+        .setting-header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .social-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .social-icon.facebook { color: #1877f2; background: #e7f3ff; }
+        .social-icon.instagram { color: #e1306c; background: #fde1ee; }
+        .social-icon.twitter { color: #1da1f2; background: #e8f5fd; }
+        .social-icon.youtube { color: #ff0000; background: #ffe6e6; }
+        .social-icon.whatsapp { color: #25d366; background: #e7faf0; }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-top: 5px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .color-input {
+            display: flex;
+            align-items: center;
+        }
+        
+        .color-input input[type="color"] {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Admin</h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="products-list">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="categories">
+                            <i class="fas fa-tags"></i>
+                            <span>Kategoriler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="banners">
+                    <i class="fas fa-images"></i>
+                    <span>Banner</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                </div>
+                <div class="sidebar-menu-item active" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </div>
+                <div class="sidebar-menu-item" id="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                </div>
+                <div class="admin-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="page-header">
+                    <h1>Ayarlar</h1>
+                    <p>Site genel ayarlarını düzenleyin</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Site Ayarları</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-tabs">
+                            <div class="settings-tab active" data-tab="general">
+                                <i class="fas fa-cog"></i> Genel
+                            </div>
+                            <div class="settings-tab" data-tab="contact">
+                                <i class="fas fa-phone-alt"></i> İletişim
+                            </div>
+                            <div class="settings-tab" data-tab="social">
+                                <i class="fas fa-share-alt"></i> Sosyal Medya
+                            </div>
+                            <div class="settings-tab" data-tab="appearance">
+                                <i class="fas fa-palette"></i> Görünüm
+                            </div>
+                        </div>
+                        
+                        <form id="settings-form">
+                            <!-- Genel Ayarlar Tab -->
+                        <div class="tab-content active" id="general-tab">
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">Site Bilgileri</h3>
+                                    </div>
+                                    
+                                <div class="form-group">
+                                        <label for="site-title">Site Başlığı</label>
+                                        <input type="text" class="form-control" id="site-title" name="site_title" value="Onsal Elektronik">
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="site-description">Site Açıklaması</label>
+                                        <textarea class="form-control" id="site-description" name="site_description" rows="3">Onsal Elektronik, en yeni teknoloji ürünlerini uygun fiyatlarla sunan elektronik mağazası.</textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="site-logo">Site Logo</label>
+                                        <input type="file" class="form-control-file" id="site-logo" name="site_logo" accept="image/*">
+                                        <div class="image-preview" id="logo-preview">
+                                            <img src="../images/logo.png" alt="Logo">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="site-favicon">Favicon</label>
+                                        <input type="file" class="form-control-file" id="site-favicon" name="site_favicon" accept="image/*">
+                                        <div class="image-preview" id="favicon-preview">
+                                            <img src="../images/favicon.ico" alt="Favicon">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <label class="switch">
+                                                <input type="checkbox" id="maintenance-mode" name="maintenance_mode">
+                                                <span class="slider"></span>
+                                            </label>
+                                            Bakım Modu Aktif
+                                        </label>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                            <!-- İletişim Ayarları Tab -->
+                            <div class="tab-content" id="contact-tab">
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">İletişim Bilgileri</h3>
+                                    </div>
+                                    
+                                        <div class="form-group">
+                                        <label for="contact-address">Adres</label>
+                                        <textarea class="form-control" id="contact-address" name="contact_address" rows="3">İstanbul, Kadıköy, Moda Caddesi No: 123</textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="contact-phone">Telefon</label>
+                                        <input type="text" class="form-control" id="contact-phone" name="contact_phone" value="+90 (216) 123 45 67">
+                                </div>
+                                
+                                    <div class="form-group">
+                                        <label for="contact-email">E-posta</label>
+                                        <input type="email" class="form-control" id="contact-email" name="contact_email" value="info@onsalelektronik.com">
+                                </div>
+                                
+                                        <div class="form-group">
+                                        <label for="contact-hours">Çalışma Saatleri</label>
+                                        <textarea class="form-control" id="contact-hours" name="contact_hours" rows="3">Hafta içi: 09:00 - 18:00
+Cumartesi: 10:00 - 15:00
+Pazar: Kapalı</textarea>
+                                    </div>
+                                    
+                                        <div class="form-group">
+                                        <label for="contact-map">Harita Embed Kodu</label>
+                                        <textarea class="form-control" id="contact-map" name="contact_map" rows="4" placeholder="<iframe>...</iframe>"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">İletişim Formu Ayarları</h3>
+                        </div>
+                        
+                                <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <label class="switch">
+                                                <input type="checkbox" id="contact-form-enabled" name="contact_form_enabled" checked>
+                                                <span class="slider"></span>
+                                            </label>
+                                            İletişim Formunu Aktifleştir
+                                        </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="contact-recipients">Form Bildirim Alıcıları</label>
+                                        <input type="text" class="form-control" id="contact-recipients" name="contact_recipients" value="info@onsalelektronik.com, satis@onsalelektronik.com">
+                                        <small>Virgülle ayırarak birden fazla e-posta adresi ekleyebilirsiniz.</small>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                            <!-- Sosyal Medya Ayarları Tab -->
+                            <div class="tab-content" id="social-tab">
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">Sosyal Medya Bağlantıları</h3>
+                                    </div>
+                                    
+                                    <div class="social-input">
+                                        <div class="social-icon facebook">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </div>
+                                        <div class="form-group" style="width: 100%;">
+                                            <input type="text" class="form-control" id="social-facebook" name="social_facebook" placeholder="Facebook sayfanızın URL'si" value="https://facebook.com/onsalelektronik">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="social-input">
+                                        <div class="social-icon instagram">
+                                            <i class="fab fa-instagram"></i>
+                                        </div>
+                                        <div class="form-group" style="width: 100%;">
+                                            <input type="text" class="form-control" id="social-instagram" name="social_instagram" placeholder="Instagram hesabınızın URL'si" value="https://instagram.com/onsalelektronik">
+                                    </div>
+                                </div>
+                                
+                                    <div class="social-input">
+                                        <div class="social-icon twitter">
+                                            <i class="fab fa-twitter"></i>
+                                </div>
+                                        <div class="form-group" style="width: 100%;">
+                                            <input type="text" class="form-control" id="social-twitter" name="social_twitter" placeholder="Twitter hesabınızın URL'si">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="social-input">
+                                        <div class="social-icon youtube">
+                                            <i class="fab fa-youtube"></i>
+                                        </div>
+                                        <div class="form-group" style="width: 100%;">
+                                            <input type="text" class="form-control" id="social-youtube" name="social_youtube" placeholder="YouTube kanalınızın URL'si">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="social-input">
+                                        <div class="social-icon whatsapp">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </div>
+                                        <div class="form-group" style="width: 100%;">
+                                            <input type="text" class="form-control" id="social-whatsapp" name="social_whatsapp" placeholder="WhatsApp numaranız (905551234567)" value="905551234567">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">Paylaşım Ayarları</h3>
+                        </div>
+                        
+                                <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <label class="switch">
+                                                <input type="checkbox" id="enable-sharing" name="enable_sharing" checked>
+                                                <span class="slider"></span>
+                                            </label>
+                                            Sosyal Medya Paylaşım Butonlarını Göster
+                                        </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="default-share-image">Varsayılan Paylaşım Görseli</label>
+                                        <input type="file" class="form-control-file" id="default-share-image" name="default_share_image" accept="image/*">
+                                        <div class="image-preview" id="share-image-preview">
+                                            <img src="../images/share-default.jpg" alt="Paylaşım Görseli">
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                            <!-- Görünüm Ayarları Tab -->
+                            <div class="tab-content" id="appearance-tab">
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">Renk Şeması</h3>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="primary-color">Ana Renk</label>
+                                        <div class="color-input">
+                                            <input type="color" id="primary-color-picker" name="primary_color_picker" value="#4a6220">
+                                            <input type="text" class="form-control" id="primary-color" name="primary_color" value="#4a6220">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="secondary-color">İkincil Renk</label>
+                                        <div class="color-input">
+                                            <input type="color" id="secondary-color-picker" name="secondary_color_picker" value="#333333">
+                                            <input type="text" class="form-control" id="secondary-color" name="secondary_color" value="#333333">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">Yazı Tipi Ayarları</h3>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="heading-font">Başlık Yazı Tipi</label>
+                                        <select class="form-control" id="heading-font" name="heading_font">
+                                            <option value="Arial, sans-serif">Arial</option>
+                                            <option value="'Roboto', sans-serif" selected>Roboto</option>
+                                            <option value="'Open Sans', sans-serif">Open Sans</option>
+                                            <option value="'Montserrat', sans-serif">Montserrat</option>
+                                            <option value="'Poppins', sans-serif">Poppins</option>
+                                        </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label for="body-font">Metin Yazı Tipi</label>
+                                        <select class="form-control" id="body-font" name="body_font">
+                                            <option value="Arial, sans-serif">Arial</option>
+                                            <option value="'Roboto', sans-serif">Roboto</option>
+                                            <option value="'Open Sans', sans-serif" selected>Open Sans</option>
+                                            <option value="'Lato', sans-serif">Lato</option>
+                                        </select>
+                                </div>
+                                </div>
+                                
+                                <div class="setting-section">
+                                    <div class="setting-header">
+                                        <h3 class="setting-title">Özellikler</h3>
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <label class="switch">
+                                                <input type="checkbox" id="dark-mode-option" name="dark_mode_option" checked>
+                                                <span class="slider"></span>
+                                            </label>
+                                            Koyu Mod Seçeneğini Aktifleştir
+                                        </label>
+                                    </div>
+                                    
+                                        <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <label class="switch">
+                                                <input type="checkbox" id="sticky-header" name="sticky_header" checked>
+                                                <span class="slider"></span>
+                                            </label>
+                                            Yapışkan Üst Menü
+                                        </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            <div class="form-group text-right mt-20">
+                                <button type="button" class="btn btn-secondary" id="reset-settings">Varsayılana Sıfırla</button>
+                                <button type="button" class="btn btn-primary" id="save-settings">Ayarları Kaydet</button>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/admin-helpers.js"></script>
+    <script src="../js/admin-navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sekme değiştirme işlevi
+            const tabs = document.querySelectorAll('.settings-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Tüm sekmeleri deaktif et
+                    document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Tıklanan sekmeyi aktifleştir
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Renk seçicileri için input eşitleme
+            const colorPickers = document.querySelectorAll('input[type="color"]');
+            
+            colorPickers.forEach(picker => {
+                const textInput = document.getElementById(picker.id.replace('-picker', ''));
+                
+                picker.addEventListener('input', function() {
+                    textInput.value = this.value;
+                });
+                
+                textInput.addEventListener('input', function() {
+                    if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+                        picker.value = this.value;
+                    }
+                });
+            });
+            
+            // Görsel yükleme işlemleri
+            async function handleImageUpload(fileInput, previewElement, settingKey) {
+                if (fileInput.files && fileInput.files[0]) {
+                    try {
+                        const file = fileInput.files[0];
+                        // UploadHandler kullanarak dosyayı yükle
+                        const result = await UploadHandler.uploadFile(file, 'settings');
+                        
+                        if (result.success) {
+                            // Önizleme göster
+                            const img = previewElement.querySelector('img') || document.createElement('img');
+                            img.src = result.fileUrl;
+                            img.alt = fileInput.name;
+                            
+                            if (!previewElement.contains(img)) {
+                                previewElement.innerHTML = '';
+                                previewElement.appendChild(img);
+                            }
+                            
+                            // Ayarı kaydet
+                            const settings = JSON.parse(localStorage.getItem('site_settings') || '{}');
+                            settings[settingKey] = result.filePath;
+                            localStorage.setItem('site_settings', JSON.stringify(settings));
+                            
+                            console.log(`${settingKey} ayarı kaydedildi:`, result.filePath);
+                            return result.filePath;
+                    } else {
+                            console.error('Dosya yükleme hatası:', result.error);
+                            alert('Dosya yüklenirken bir hata oluştu.');
+                        }
+                    } catch (error) {
+                        console.error('Görsel yükleme hatası:', error);
+                        alert('Dosya yüklenirken bir hata oluştu: ' + error.message);
+                    }
+                }
+                return null;
+            }
+            
+            // Logo yükleme
+            const logoInput = document.getElementById('site-logo');
+            const logoPreview = document.getElementById('logo-preview');
+            
+            if (logoInput) {
+                logoInput.addEventListener('change', async function() {
+                    await handleImageUpload(this, logoPreview, 'logo');
+                });
+            }
+            
+            // Favicon yükleme
+            const faviconInput = document.getElementById('site-favicon');
+            const faviconPreview = document.getElementById('favicon-preview');
+            
+            if (faviconInput) {
+                faviconInput.addEventListener('change', async function() {
+                    await handleImageUpload(this, faviconPreview, 'favicon');
+                });
+            }
+            
+            // Paylaşım görseli yükleme
+            const shareImageInput = document.getElementById('default-share-image');
+            const shareImagePreview = document.getElementById('share-image-preview');
+            
+            if (shareImageInput) {
+                shareImageInput.addEventListener('change', async function() {
+                    await handleImageUpload(this, shareImagePreview, 'share_image');
+                });
+            }
+            
+            // Form alanlarındaki değişiklikleri kaydetme
+            function saveTextInput(input, settingKey) {
+                const settings = JSON.parse(localStorage.getItem('site_settings') || '{}');
+                settings[settingKey] = input.value;
+                localStorage.setItem('site_settings', JSON.stringify(settings));
+                console.log(`${settingKey} ayarı kaydedildi:`, input.value);
+            }
+            
+            // Ayarları kaydetme işlemi
+            document.getElementById('save-settings').addEventListener('click', function() {
+                // Tüm metin giriş alanlarını ve seçim kutularını kaydet
+                const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea, select');
+                textInputs.forEach(input => {
+                    if (input.id) {
+                        const settingKey = input.id.replace(/-/g, '_');
+                        saveTextInput(input, settingKey);
+                    }
+                });
+                
+                // Onay kutularını kaydet
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.id) {
+                        const settingKey = checkbox.id.replace(/-/g, '_');
+                        const settings = JSON.parse(localStorage.getItem('site_settings') || '{}');
+                        settings[settingKey] = checkbox.checked;
+                        localStorage.setItem('site_settings', JSON.stringify(settings));
+                    }
+                });
+                
+                alert('Ayarlar başarıyla kaydedildi.');
+                
+                // Ana sayfada ayarları uygula için sayfa yenileme
+                if (confirm('Değişiklikleri görmek için sayfayı yenilemek ister misiniz?')) {
+                    window.location.reload();
+                }
+            });
+            
+            // Sayfa yüklendiğinde mevcut ayarları yükle
+            function loadSettings() {
+                const settings = JSON.parse(localStorage.getItem('site_settings') || '{}');
+                
+                // Metin, e-posta ve telefon alanları
+                const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea, select');
+                textInputs.forEach(input => {
+                    if (input.id) {
+                        const settingKey = input.id.replace(/-/g, '_');
+                        if (settings[settingKey] !== undefined) {
+                            input.value = settings[settingKey];
+                        }
+                    }
+                });
+                
+                // Onay kutuları
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.id) {
+                        const settingKey = checkbox.id.replace(/-/g, '_');
+                        if (settings[settingKey] !== undefined) {
+                            checkbox.checked = settings[settingKey];
+                        }
+                    }
+                });
+                
+                // Görsel önizlemeleri
+                if (settings.logo && logoPreview) {
+                    const img = document.createElement('img');
+                    img.alt = 'Logo';
+                    
+                    // localStorage'da kaydedilen data URL'i kullan
+                    if (settings.logo.startsWith('uploads/')) {
+                        const logoData = UploadHandler.getUploadedFile(settings.logo);
+                        if (logoData) {
+                            img.src = logoData;
+                            logoPreview.innerHTML = '';
+                            logoPreview.appendChild(img);
+                        }
+                    }
+                }
+                
+                if (settings.favicon && faviconPreview) {
+                    const img = document.createElement('img');
+                    img.alt = 'Favicon';
+                    
+                    // localStorage'da kaydedilen data URL'i kullan
+                    if (settings.favicon.startsWith('uploads/')) {
+                        const faviconData = UploadHandler.getUploadedFile(settings.favicon);
+                        if (faviconData) {
+                            img.src = faviconData;
+                            faviconPreview.innerHTML = '';
+                            faviconPreview.appendChild(img);
+                        }
+                    }
+                }
+                
+                if (settings.share_image && shareImagePreview) {
+                    const img = document.createElement('img');
+                    img.alt = 'Paylaşım Görseli';
+                    
+                    // localStorage'da kaydedilen data URL'i kullan
+                    if (settings.share_image.startsWith('uploads/')) {
+                        const shareData = UploadHandler.getUploadedFile(settings.share_image);
+                        if (shareData) {
+                            img.src = shareData;
+                            shareImagePreview.innerHTML = '';
+                            shareImagePreview.appendChild(img);
+                        }
+                    }
+                }
+            }
+            
+            // Ayarları yükle
+            loadSettings();
+            
+            // Ayarları sıfırlama işlemi
+            document.getElementById('reset-settings').addEventListener('click', function() {
+                if (confirm('Tüm ayarları varsayılan değerlerine sıfırlamak istediğinize emin misiniz?')) {
+                    localStorage.removeItem('site_settings');
+                    document.getElementById('settings-form').reset();
+                    
+                    // Görsel önizlemeleri temizle
+                    if (logoPreview) logoPreview.innerHTML = '';
+                    if (faviconPreview) faviconPreview.innerHTML = '';
+                    if (shareImagePreview) shareImagePreview.innerHTML = '';
+                    
+                    alert('Tüm ayarlar varsayılan değerlerine sıfırlandı.');
+                    
+                    // Sayfayı yenile
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

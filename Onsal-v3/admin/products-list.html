@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürünler - Onsal Elektronik Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-image-small {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .badge-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .badge-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .product-filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .product-filter-form .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .product-filter-form .btn-filter {
+            align-self: flex-end;
+        }
+        
+        .pagination {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Admin</h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-menu-item active" data-page="products-list">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="categories">
+                            <i class="fas fa-tags"></i>
+                            <span>Kategoriler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="banners">
+                    <i class="fas fa-images"></i>
+                    <span>Banner</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </div>
+                <div class="sidebar-menu-item" id="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                </div>
+                <div class="admin-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="page-header">
+                    <h1>Ürünler</h1>
+                    <p>Ürünleri görüntüle, düzenle ve yeni ürün ekle</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Ürün Listesi</h2>
+                        <p>Bu sayfa henüz geliştirme aşamasındadır.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="action-buttons mb-20">
+                            <button class="btn btn-primary" id="add-product-button">
+                                <i class="fas fa-plus"></i> Yeni Ürün Ekle
+                            </button>
+                    </div>
+                    
+                        <div class="product-filter-form">
+                            <div class="form-group">
+                                <label for="filter-category">Kategori</label>
+                                <select class="form-control" id="filter-category">
+                                    <option value="">Tümü</option>
+                                    <option value="tv">Televizyon</option>
+                                    <option value="beyaz-esya">Beyaz Eşya</option>
+                                    <option value="kucuk-ev-aletleri">Küçük Ev Aletleri</option>
+                                    <option value="kisisel-bakim">Kişisel Bakım</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="filter-status">Durum</label>
+                                <select class="form-control" id="filter-status">
+                                    <option value="">Tümü</option>
+                                    <option value="active">Aktif</option>
+                                    <option value="inactive">Pasif</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="filter-search">Ara</label>
+                                <input type="text" class="form-control" id="filter-search" placeholder="Ürün adı, marka...">
+                            </div>
+                            
+                            <button class="btn btn-primary btn-filter">
+                                    <i class="fas fa-filter"></i> Filtrele
+                                </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Görsel</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Kategori</th>
+                                        <th>Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><img src="https://via.placeholder.com/60x60" alt="Ürün" class="product-image-small"></td>
+                                        <td>Samsung 55" Smart TV</td>
+                                        <td>Televizyon</td>
+                                        <td>15.999 TL</td>
+                                        <td>25</td>
+                                        <td><span class="badge badge-success">Aktif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary edit-product" data-id="1">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger delete-product" data-id="1">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><img src="https://via.placeholder.com/60x60" alt="Ürün" class="product-image-small"></td>
+                                        <td>Arçelik 10 KG Çamaşır Makinesi</td>
+                                        <td>Beyaz Eşya</td>
+                                        <td>12.499 TL</td>
+                                        <td>10</td>
+                                        <td><span class="badge badge-success">Aktif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary edit-product" data-id="2">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger delete-product" data-id="2">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><img src="https://via.placeholder.com/60x60" alt="Ürün" class="product-image-small"></td>
+                                        <td>Philips Saç Kurutma Makinesi</td>
+                                        <td>Kişisel Bakım</td>
+                                        <td>899 TL</td>
+                                        <td>50</td>
+                                        <td><span class="badge badge-warning">Pasif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary edit-product" data-id="3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger delete-product" data-id="3">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="pagination">
+                            <button class="btn btn-sm btn-secondary">« Önceki</button>
+                            <button class="btn btn-sm btn-primary">1</button>
+                            <button class="btn btn-sm btn-secondary">2</button>
+                            <button class="btn btn-sm btn-secondary">3</button>
+                            <button class="btn btn-sm btn-secondary">Sonraki »</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/admin-helpers.js"></script>
+    <script src="../js/admin-navigation.js"></script>
+    <script src="../js/product-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ürün Ekleme Modalı
+            const addProductButton = document.getElementById('add-product-button');
+            const productModal = document.getElementById('product-modal');
+            const productModalTitle = document.getElementById('product-modal-title');
+            const productModalClose = document.getElementById('product-modal-close');
+            const productModalCancel = document.getElementById('product-modal-cancel');
+            const productModalSave = document.getElementById('product-modal-save');
+            const productForm = document.getElementById('product-form');
+            const productId = document.getElementById('product-id');
+            const productName = document.getElementById('product-name');
+            const productCategory = document.getElementById('product-category');
+            const productImages = document.getElementById('product-images');
+            const productImagePreviews = document.getElementById('product-image-previews');
+            
+            // Ürünleri localStorage'dan yükle
+            loadProducts();
+            
+            // Alt kategori seçeneklerini kategori seçimine göre güncelleme
+            const subCategoryOptions = {
+                'tv': [
+                    { value: 'smart-tv', label: 'Smart TV' },
+                    { value: 'oled', label: 'OLED' },
+                    { value: 'qled', label: 'QLED' },
+                    { value: '4k', label: '4K' },
+                    { value: '8k', label: '8K' }
+                ],
+                'beyaz-esya': [
+                    { value: 'buzdolabi', label: 'Buzdolabı' },
+                    { value: 'camasir-makinesi', label: 'Çamaşır Makinesi' },
+                    { value: 'bulasik-makinesi', label: 'Bulaşık Makinesi' },
+                    { value: 'firin', label: 'Fırın' }
+                ],
+                'kucuk-ev-aletleri': [
+                    { value: 'blender', label: 'Blender' },
+                    { value: 'mikser', label: 'Mikser' },
+                    { value: 'tost-makinesi', label: 'Tost Makinesi' },
+                    { value: 'kahve-makinesi', label: 'Kahve Makinesi' }
+                ],
+                'kisisel-bakim': [
+                    { value: 'sac-kurutma', label: 'Saç Kurutma' },
+                    { value: 'sac-duzlestirici', label: 'Saç Düzleştirici' },
+                    { value: 'tiras-makinesi', label: 'Tıraş Makinesi' },
+                    { value: 'epilasyon', label: 'Epilasyon' }
+                ]
+            };
+            
+            if (productCategory) {
+                productCategory.addEventListener('change', function() {
+                    const category = this.value;
+                    const subCategorySelect = document.getElementById('product-subcategory');
+                    
+                    // Alt kategori seçeneklerini temizle
+                    subCategorySelect.innerHTML = '<option value="">Alt Kategori Seçin</option>';
+                    
+                    // Seçilen kategoriye göre alt kategori seçeneklerini ekle
+                    if (category && subCategoryOptions[category]) {
+                        subCategoryOptions[category].forEach(option => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option.value;
+                            optionElement.textContent = option.label;
+                            subCategorySelect.appendChild(optionElement);
+                        });
+                    }
+                });
+            }
+            
+            // Ürün görsel yükleme
+            if (productImages) {
+                productImages.addEventListener('change', async function() {
+                    if (this.files && this.files.length > 0) {
+                        for (let i = 0; i < this.files.length; i++) {
+                            const file = this.files[i];
+                            
+                            // En fazla 5 görsel kontrolü
+                            if (productImagePreviews.children.length >= 5) {
+                                alert('En fazla 5 görsel ekleyebilirsiniz.');
+                                break;
+                            }
+                            
+                            try {
+                                // Resmi önizleme
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    const previewContainer = document.createElement('div');
+                                    previewContainer.className = 'product-image-preview-item';
+                                    
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    img.alt = 'Ürün Görsel Önizleme';
+                                    
+                                    const removeButton = document.createElement('span');
+                                    removeButton.className = 'product-image-preview-remove';
+                                    removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                                    removeButton.addEventListener('click', function() {
+                                        previewContainer.remove();
+                                    });
+                                    
+                                    previewContainer.appendChild(img);
+                                    previewContainer.appendChild(removeButton);
+                                    productImagePreviews.appendChild(previewContainer);
+                                };
+                                reader.readAsDataURL(file);
+                            } catch (error) {
+                                console.error('Resim yükleme hatası:', error);
+                                alert('Dosya işlenirken bir hata oluştu.');
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Ürün ekleme modalını açma
+            if (addProductButton && productModal) {
+                addProductButton.addEventListener('click', function() {
+                    resetProductForm();
+                    productModalTitle.textContent = 'Yeni Ürün Ekle';
+                    productModal.classList.add('show');
+                });
+            }
+            
+            // Ürün düzenleme modalını açma
+            const editProductButtons = document.querySelectorAll('.edit-product');
+            
+            editProductButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editProduct(id);
+                });
+            });
+            
+            // Ürün silme modalını açma
+            const deleteProductButtons = document.querySelectorAll('.delete-product');
+            const productDeleteModal = document.getElementById('product-delete-modal');
+            const productDeleteModalClose = document.getElementById('product-delete-modal-close');
+            const productDeleteModalCancel = document.getElementById('product-delete-modal-cancel');
+            const productDeleteModalConfirm = document.getElementById('product-delete-modal-confirm');
+            const deleteProductName = document.getElementById('delete-product-name');
+            
+            deleteProductButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const row = this.closest('tr');
+                    const productNameText = row.cells[2].textContent;
+                    
+                    // Ürün adını silme modalına ekle
+                    deleteProductName.textContent = productNameText;
+                    
+                    // Silme butonuna ürün ID'sini ekle
+                    productDeleteModalConfirm.setAttribute('data-id', id);
+                    
+                    // Silme modalını aç
+                    productDeleteModal.classList.add('show');
+                });
+            });
+            
+            // Silme modalını kapatma
+            if (productDeleteModalClose) {
+                productDeleteModalClose.addEventListener('click', function() {
+                    productDeleteModal.classList.remove('show');
+                });
+            }
+            
+            if (productDeleteModalCancel) {
+                productDeleteModalCancel.addEventListener('click', function() {
+                    productDeleteModal.classList.remove('show');
+                });
+            }
+            
+            // Ürün silme işlemi
+            if (productDeleteModalConfirm) {
+                productDeleteModalConfirm.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    
+                    // Burada gerçek silme işlemi yapılacak
+                    alert(`ID: ${id} olan ürün başarıyla silindi.`);
+                    
+                    // Silinen ürünü tablodan kaldır (demo)
+                    document.querySelectorAll('.delete-product').forEach(button => {
+                        if (button.getAttribute('data-id') === id) {
+                            button.closest('tr').remove();
+                        }
+                    });
+                    
+                    // Modalı kapat
+                    productDeleteModal.classList.remove('show');
+                });
+            }
+            
+            // Ürün kaydetme
+            if (productModalSave && productForm) {
+                productModalSave.addEventListener('click', async function() {
+                    // Form doğrulama
+                    if (!validateProductForm()) {
+                    return;
+                }
+                
+                    // Ürün verilerini topla
+                    const productData = {
+                        name: document.getElementById('product-name').value,
+                        category: document.getElementById('product-category').value,
+                        subcategory: document.getElementById('product-subcategory').value,
+                        brand: document.getElementById('product-brand').value,
+                        model: document.getElementById('product-model').value,
+                        price: document.getElementById('product-price').value,
+                        stock: document.getElementById('product-stock').value,
+                        shortDesc: document.getElementById('product-short-desc').value,
+                        description: document.getElementById('product-description').value,
+                        status: document.getElementById('product-status').value
+                    };
+                    
+                    // Görsel yollarını topla
+                    const images = [];
+                    document.querySelectorAll('#product-image-previews .product-image-preview-item').forEach(preview => {
+                        const removeButton = preview.querySelector('.product-image-preview-remove');
+                        if (removeButton && removeButton.hasAttribute('data-path')) {
+                            images.push(removeButton.getAttribute('data-path'));
+                        }
+                    });
+                    
+                    productData.images = images;
+                    
+                    // Yeni yüklenen görselleri işle
+                    if (productImages.files.length > 0) {
+                        for (let i = 0; i < productImages.files.length; i++) {
+                            const file = productImages.files[i];
+                            
+                            try {
+                                const result = await UploadHandler.uploadFile(file, 'products');
+                                if (result.success) {
+                                    productData.images.push(result.filePath);
+                                }
+                            } catch (error) {
+                                console.error('Görsel yükleme hatası:', error);
+                            }
+                        }
+                    }
+                    
+                    let result;
+                    
+                    // Ürün ID'si varsa güncelle, yoksa yeni ekle
+                    if (productId.value) {
+                        result = ProductManager.updateProduct(productId.value, productData);
+                    } else {
+                        result = ProductManager.addProduct(productData);
+                    }
+                    
+                    if (result.success) {
+                        alert(result.message);
+                        loadProducts(); // Tabloyu güncelle
+                        productModal.classList.remove('show');
+                    } else {
+                        alert('Hata: ' + result.message);
+                    }
+                });
+            }
+            
+            // Ürün düzenleme
+            function editProduct(id) {
+                const product = ProductManager.getProductById(id);
+                if (!product) {
+                    alert('Ürün bulunamadı!');
+                    return;
+                }
+                
+                resetProductForm();
+                
+                // Form alanlarını doldur
+                productId.value = product.id;
+                document.getElementById('product-name').value = product.name || '';
+                document.getElementById('product-category').value = product.category || '';
+                document.getElementById('product-brand').value = product.brand || '';
+                document.getElementById('product-model').value = product.model || '';
+                document.getElementById('product-price').value = product.price || '';
+                document.getElementById('product-stock').value = product.stock || '';
+                document.getElementById('product-short-desc').value = product.shortDesc || '';
+                document.getElementById('product-description').value = product.description || '';
+                document.getElementById('product-status').value = product.status || 'active';
+                
+                // Alt kategori güncelleme
+                if (product.category) {
+                    const event = new Event('change');
+                    document.getElementById('product-category').dispatchEvent(event);
+                    
+                    setTimeout(() => {
+                        if (product.subcategory) {
+                            document.getElementById('product-subcategory').value = product.subcategory;
+                        }
+                    }, 100);
+                }
+                
+                // Görsel önizlemelerini göster
+                if (product.images && product.images.length > 0) {
+                    product.images.forEach(imgPath => {
+                        const previewContainer = document.createElement('div');
+                        previewContainer.className = 'product-image-preview-item';
+                        
+                        const img = document.createElement('img');
+                        
+                        if (imgPath.startsWith('uploads/')) {
+                            const imgData = UploadHandler.getUploadedFile(imgPath);
+                            if (imgData) {
+                                img.src = imgData;
+                            } else {
+                                img.src = 'https://via.placeholder.com/100x100?text=Resim+Bulunamadı';
+                            }
+                        } else {
+                            img.src = imgPath;
+                        }
+                        
+                        previewContainer.appendChild(img);
+                        
+                        const removeButton = document.createElement('span');
+                        removeButton.className = 'product-image-preview-remove';
+                        removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                        removeButton.setAttribute('data-path', imgPath);
+                        
+                        previewContainer.appendChild(removeButton);
+                        productImagePreviews.appendChild(previewContainer);
+                    });
+                }
+                
+                productModalTitle.textContent = 'Ürün Düzenle';
+                productModal.classList.add('show');
+            }
+            
+            // Ürün silme
+            function deleteProduct(id) {
+                const result = ProductManager.deleteProduct(id);
+                
+                if (result.success) {
+                    alert(result.message);
+                    loadProducts(); // Tabloyu güncelle
+                } else {
+                    alert('Hata: ' + result.message);
+                }
+            }
+            
+            // Ürün Formu Sıfırlama
+            function resetProductForm() {
+                productForm.reset();
+                productId.value = '';
+                productImagePreviews.innerHTML = '';
+                
+                // Alt kategori seçimini sıfırla
+                const subCategorySelect = document.getElementById('product-subcategory');
+                if (subCategorySelect) {
+                    subCategorySelect.innerHTML = '<option value="">Alt Kategori Seçin</option>';
+                }
+            }
+            
+            // Form doğrulama
+            function validateProductForm() {
+                let isValid = true;
+                
+                if (!document.getElementById('product-name').value.trim()) {
+                    alert('Lütfen ürün adını girin.');
+                    document.getElementById('product-name').focus();
+                    isValid = false;
+                } else if (!document.getElementById('product-category').value) {
+                    alert('Lütfen bir kategori seçin.');
+                    document.getElementById('product-category').focus();
+                    isValid = false;
+                } else if (!document.getElementById('product-price').value) {
+                    alert('Lütfen ürün fiyatını girin.');
+                    document.getElementById('product-price').focus();
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Ürünleri Yükleme
+            function loadProducts() {
+                const products = ProductManager.getAllProducts();
+                
+                const tbody = document.querySelector('table tbody');
+                if (!tbody) return;
+                
+                tbody.innerHTML = ''; // Tabloyu temizle
+                
+                products.forEach((product, index) => {
+                    const row = document.createElement('tr');
+                    
+                    let imgSrc = 'https://via.placeholder.com/60x60';
+                    if (product.images && product.images.length > 0) {
+                        if (product.images[0].startsWith('uploads/')) {
+                            const imgData = UploadHandler.getUploadedFile(product.images[0]);
+                            if (imgData) {
+                                imgSrc = imgData;
+                            }
+                        } else {
+                            imgSrc = product.images[0];
+                        }
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td><img src="${imgSrc}" alt="Ürün" class="product-image-small"></td>
+                        <td>${product.name}</td>
+                        <td>${getCategoryName(product.category)}</td>
+                        <td>${product.price || 0} TL</td>
+                        <td>${product.stock || 0}</td>
+                        <td><span class="badge badge-${product.status === 'active' ? 'success' : 'warning'}">${product.status === 'active' ? 'Aktif' : 'Pasif'}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary edit-product" data-id="${product.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-product" data-id="${product.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+                
+                // Edit ve Delete butonlarını güncelle
+                setupEditButtons();
+                setupDeleteButtons();
+            }
+            
+            // Kategori adını almak için
+            function getCategoryName(categoryId) {
+                const categoryMap = {
+                    'tv': 'Televizyon',
+                    'beyaz-esya': 'Beyaz Eşya',
+                    'kucuk-ev-aletleri': 'Küçük Ev Aletleri',
+                    'kisisel-bakim': 'Kişisel Bakım'
+                };
+                
+                return categoryMap[categoryId] || categoryId;
+            }
+            
+            // Edit butonlarını ayarla
+            function setupEditButtons() {
+                document.querySelectorAll('.edit-product').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        editProduct(id);
+                    });
+                });
+            }
+            
+            // Delete butonlarını ayarla
+            function setupDeleteButtons() {
+                document.querySelectorAll('.delete-product').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        if (confirm('Bu ürünü silmek istediğinize emin misiniz?')) {
+                            deleteProduct(id);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    
+    <!-- Ürün Ekleme/Düzenleme Modalı -->
+    <div class="modal" id="product-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="product-modal-title">Yeni Ürün Ekle</h3>
+                    <button type="button" class="modal-close" id="product-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="product-form">
+                        <input type="hidden" id="product-id" value="">
+                        
+                        <div class="form-group">
+                            <label for="product-name">Ürün Adı <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="product-name" name="product-name" placeholder="Ürün adını girin" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="product-category">Kategori <span class="text-danger">*</span></label>
+                                    <select class="form-control" id="product-category" name="product-category" required>
+                                        <option value="">Kategori Seçin</option>
+                                        <option value="tv">Televizyon</option>
+                                        <option value="beyaz-esya">Beyaz Eşya</option>
+                                        <option value="kucuk-ev-aletleri">Küçük Ev Aletleri</option>
+                                        <option value="kisisel-bakim">Kişisel Bakım</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="product-subcategory">Alt Kategori</label>
+                                    <select class="form-control" id="product-subcategory" name="product-subcategory">
+                                        <option value="">Alt Kategori Seçin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="product-brand">Marka</label>
+                                    <input type="text" class="form-control" id="product-brand" name="product-brand" placeholder="Marka adı">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="product-model">Model</label>
+                                    <input type="text" class="form-control" id="product-model" name="product-model" placeholder="Model kodu">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="product-price">Fiyat <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" class="form-control" id="product-price" name="product-price" placeholder="0.00" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="product-stock">Stok Adedi</label>
+                                    <input type="number" class="form-control" id="product-stock" name="product-stock" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-short-desc">Kısa Açıklama</label>
+                            <textarea class="form-control" id="product-short-desc" name="product-short-desc" rows="2" placeholder="Ürünün kısa açıklaması"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-description">Ürün Açıklaması</label>
+                            <textarea class="form-control" id="product-description" name="product-description" rows="4" placeholder="Detaylı ürün açıklaması"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-images">Ürün Görselleri</label>
+                            <input type="file" class="form-control-file" id="product-images" name="product-images" accept="image/*" multiple>
+                            <small>En fazla 5 görsel ekleyebilirsiniz. Her bir görsel en fazla 2MB olabilir.</small>
+                        </div>
+                        
+                        <div id="product-image-previews" class="product-image-previews">
+                            <!-- Ürün görsel önizlemeleri buraya eklenecek -->
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-status">Durum</label>
+                            <select class="form-control" id="product-status" name="product-status">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Pasif</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="product-modal-cancel">İptal</button>
+                    <button type="button" class="btn btn-primary" id="product-modal-save">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ürün Silme Modalı -->
+    <div class="modal" id="product-delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Ürün Sil</h3>
+                    <button type="button" class="modal-close" id="product-delete-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong id="delete-product-name">Ürün adı</strong> adlı ürünü silmek istediğinize emin misiniz?
+                    </p>
+                    <p>Bu işlem geri alınamaz.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="product-delete-modal-cancel">İptal</button>
+                    <button type="button" class="btn btn-danger" id="product-delete-modal-confirm">Evet, Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

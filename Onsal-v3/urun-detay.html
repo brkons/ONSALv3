@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Detayı - Onsal Elektronik</title>
+    <meta name="description" content="Onsal Elektronik ürün detayları ve teknik özellikleri.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product-card.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        /* Kategori Geri Butonu */
+        .category-back-btn {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            gap: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .category-back-btn:hover {
+            background-color: #45772d;
+            transform: translateY(-2px);
+        }
+        
+        /* Ürün Galerisi */
+        .product-gallery {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .main-image {
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .main-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .thumbnail.active {
+            border-color: var(--primary-color);
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Ürün Bilgileri */
+        .product-info {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .brand-logo {
+            height: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .brand-logo img {
+            max-height: 100%;
+        }
+        
+        .product-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .product-short-desc {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .product-price-container {
+            margin-bottom: 25px;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .current-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .product-specs {
+            margin-bottom: 25px;
+        }
+        
+        .specs-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .specs-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .specs-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .specs-list li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .product-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-call {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            border: none;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Ürün Detayları */
+        .product-details {
+            grid-column: span 2;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .details-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .details-content {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        /* Servis Bilgileri */
+        .service-info {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            grid-column: span 2;
+        }
+        
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            flex: 1;
+        }
+        
+        .service-item i {
+            font-size: 30px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .service-item .service-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .service-item .service-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Benzer Ürünler */
+        .similar-products {
+            grid-column: span 2;
+            margin-top: 40px;
+        }
+        
+        .similar-products-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .similar-products-container {
+            position: relative;
+        }
+        
+        .products-grid-similar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .product-card-similar {
+            scale: 0.9;
+        }
+        
+        .carousel-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+            padding: 0 10px;
+        }
+        
+        .carousel-btn {
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s;
+        }
+        
+        .carousel-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Responsive Tasarım */
+        @media (max-width: 768px) {
+            .category-back-btn {
+                top: 70px;
+            }
+            
+            .product-detail-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-details, .service-info, .similar-products {
+                grid-column: span 1;
+            }
+            
+            .service-info {
+                flex-direction: column;
+            }
+            
+            .service-item {
+                margin-bottom: 15px;
+            }
+            
+            .products-grid-similar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">ONSAL</a>
+            </div>
+            <div class="menu-center">
+                <a href="kategori-televizyon.html" class="menu-item">Televizyon</a>
+                <a href="kategori-beyaz-esya.html" class="menu-item">Beyaz Eşya</a>
+                <a href="kategori-kucuk-ev-aletleri.html" class="menu-item">Küçük Ev Aletleri</a>
+                <a href="kategori-kisisel-bakim.html" class="menu-item">Kişisel Bakım</a>
+            </div>
+            <div class="menu-right">
+                <a href="iletisim.html" class="contact-icon" title="İletişim">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <button class="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="mobile-menu-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="kategori-televizyon.html">Televizyon</a>
+        <a href="kategori-beyaz-esya.html">Beyaz Eşya</a>
+        <a href="kategori-kucuk-ev-aletleri.html">Küçük Ev Aletleri</a>
+        <a href="kategori-kisisel-bakim.html">Kişisel Bakım</a>
+        <a href="iletisim.html">İletişim</a>
+    </div>
+
+    <div class="overlay"></div>
+    
+    <!-- Kategoriye Dönüş Butonu -->
+    <a href="#" class="category-back-btn" id="category-back-btn">
+        <i class="fas fa-arrow-left"></i> Kategoriye Dön
+    </a>
+
+    <main>
+        <!-- Ürün Detay Container -->
+        <div class="product-detail-container">
+            <!-- Sol Taraf: Ürün Galerisi -->
+            <div class="product-gallery">
+                <div class="main-image" id="main-product-image">
+                    <!-- Ana görsel JavaScript ile eklenecek -->
+                </div>
+                <div class="thumbnail-container" id="thumbnail-gallery">
+                    <!-- Küçük görseller JavaScript ile eklenecek -->
+                </div>
+            </div>
+            
+            <!-- Sağ Taraf: Ürün Bilgileri -->
+            <div class="product-info">
+                <div class="brand-logo" id="product-brand">
+                    <!-- Marka logosu JavaScript ile eklenecek -->
+                </div>
+                <h1 class="product-title" id="product-title">
+                    <!-- Ürün adı JavaScript ile eklenecek -->
+                </h1>
+                <p class="product-short-desc" id="product-short-desc">
+                    <!-- Kısa açıklama JavaScript ile eklenecek -->
+                </p>
+                <div class="product-price-container">
+                    <div class="old-price" id="old-price">
+                        <!-- Eski fiyat (varsa) JavaScript ile eklenecek -->
+                    </div>
+                    <div class="current-price" id="current-price">
+                        <!-- Mevcut fiyat JavaScript ile eklenecek -->
+                    </div>
+                </div>
+                
+                <div class="product-specs">
+                    <h3 class="specs-title">Özellikler</h3>
+                    <ul class="specs-list" id="specs-list">
+                        <!-- Ürün özellikleri JavaScript ile eklenecek -->
+                    </ul>
+                </div>
+                
+                <div class="product-actions">
+                    <a href="tel:+902161234567" class="btn btn-call">
+                            <i class="fas fa-phone"></i> Hemen Ara
+                        </a>
+                    <a href="#" id="whatsapp-link" class="btn btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+            </div>
+            
+            <!-- Ürün Detayları -->
+            <div class="product-details">
+                <h2 class="details-title">Ürün Açıklaması</h2>
+                <div class="details-content" id="product-description">
+                    <!-- Detaylı açıklama JavaScript ile eklenecek -->
+                </div>
+            </div>
+            
+            <!-- Servis Bilgileri -->
+            <div class="service-info">
+                <div class="service-item">
+                    <i class="fas fa-truck"></i>
+                    <div class="service-title">Ücretsiz Teslimat</div>
+                    <div class="service-desc">İstanbul içi adrese teslim</div>
+                    </div>
+                <div class="service-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="service-title">Garanti</div>
+                    <div class="service-desc" id="warranty-info">2 Yıl Garanti</div>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-tools"></i>
+                    <div class="service-title">Teknik Servis</div>
+                    <div class="service-desc">Yerinde bakım hizmeti</div>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div class="service-title">İade</div>
+                    <div class="service-desc">14 gün içinde değişim</div>
+                        </div>
+                        </div>
+            
+            <!-- Benzer Ürünler -->
+            <div class="similar-products">
+                <h2 class="similar-products-title">Benzer Ürünler</h2>
+                <div class="similar-products-container">
+                    <div class="products-grid-similar" id="similar-products">
+                        <!-- Benzer ürünler JavaScript ile eklenecek -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="tel:+902161234567">+90 (216) 123 45 67</a>
+            <span>|</span>
+            <span>© 2024 Onsal Elektronik</span>
+            <span>|</span>
+            <a href="iletisim.html">İletişim</a>
+            
+            <div class="social-links">
+                <a href="https://wa.me/905551234567">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://instagram.com/onsalelektronik">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script src="js/product-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL'den ürün ID'sini al
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Ürünü ProductManager'dan al
+            const product = ProductManager.getProductById(productId);
+            
+            if (!product) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Sayfa başlığını güncelle
+            document.title = `${product.name} - Onsal Elektronik`;
+            
+            // Ürün bilgilerini doldur
+            fillProductInfo(product);
+            
+            // Galeriyi oluştur
+            createGallery(product.images || []);
+            
+            // WhatsApp linkini ayarla
+            const whatsappLink = document.getElementById('whatsapp-link');
+            if (whatsappLink) {
+                whatsappLink.href = `https://wa.me/905551234567?text=Merhaba%2C%20${encodeURIComponent(product.name)}%20ürünü%20hakkında%20bilgi%20almak%20istiyorum`;
+            }
+            
+            // Garanti süresini ayarla
+            const warrantyInfo = document.getElementById('warranty-info');
+            if (warrantyInfo && product.warranty) {
+                warrantyInfo.textContent = `${product.warranty} Yıl Garanti`;
+            }
+            
+            // Kategoriye dönüş butonunu ayarla
+            setupCategoryButton(product.category);
+            
+            // Benzer ürünleri yükle
+            loadSimilarProducts(product.category, product.id);
+        });
+        
+        // Ürün bilgilerini doldur
+        function fillProductInfo(product) {
+            // Marka logosu
+            const brandElement = document.getElementById('product-brand');
+            if (brandElement && product.brand) {
+                brandElement.innerHTML = `<span style="font-weight: bold; font-size: 18px;">${product.brand}</span>`;
+            }
+            
+            // Ürün başlığı
+            const titleElement = document.getElementById('product-title');
+            if (titleElement) {
+                titleElement.textContent = product.name;
+            }
+            
+            // Kısa açıklama
+            const shortDescElement = document.getElementById('product-short-desc');
+            if (shortDescElement && product.shortDescription) {
+                shortDescElement.textContent = product.shortDescription;
+            } else if (shortDescElement) {
+                // Eğer kısa açıklama yoksa, adı kullan
+                shortDescElement.textContent = product.name;
+            }
+            
+            // Fiyat bilgileri
+            const oldPriceElement = document.getElementById('old-price');
+            const currentPriceElement = document.getElementById('current-price');
+            
+            if (currentPriceElement) {
+                currentPriceElement.textContent = `${product.price} TL`;
+            }
+            
+            if (oldPriceElement && product.oldPrice) {
+                const oldPrice = parseFloat(product.oldPrice);
+                const currentPrice = parseFloat(product.price);
+                
+                if (oldPrice > currentPrice) {
+                    oldPriceElement.textContent = `${product.oldPrice} TL`;
+                } else {
+                    oldPriceElement.style.display = 'none';
+                }
+            } else if (oldPriceElement) {
+                oldPriceElement.style.display = 'none';
+            }
+            
+            // Özellikler
+            const specsList = document.getElementById('specs-list');
+            if (specsList) {
+                const specs = [];
+                
+                if (product.energyClass) specs.push({ icon: 'fas fa-leaf', text: `${product.energyClass} Enerji Sınıfı` });
+                if (product.screenSize) specs.push({ icon: 'fas fa-tv', text: `${product.screenSize}" Ekran` });
+                if (product.programCount) specs.push({ icon: 'fas fa-sliders-h', text: `${product.programCount} Program` });
+                if (product.capacity) specs.push({ icon: 'fas fa-box', text: `${product.capacity} Kapasite` });
+                
+                if (product.features && product.features.length) {
+                    product.features.forEach(feature => {
+                        specs.push({ icon: 'fas fa-check', text: feature });
+                    });
+                }
+                
+                if (specs.length === 0) {
+                    // Eğer hiç özellik yoksa, varsayılan özellikler ekle
+                    specs.push({ icon: 'fas fa-check', text: 'Orijinal Ürün' });
+                    specs.push({ icon: 'fas fa-shield-alt', text: 'Garanti Kapsamında' });
+                }
+                
+                specs.forEach(spec => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="${spec.icon}"></i> ${spec.text}`;
+                    specsList.appendChild(li);
+                });
+            }
+            
+            // Detaylı açıklama
+            const descriptionElement = document.getElementById('product-description');
+            if (descriptionElement && product.description) {
+                descriptionElement.innerHTML = product.description;
+            } else if (descriptionElement) {
+                descriptionElement.innerHTML = '<p>Bu ürün için detaylı açıklama bulunmamaktadır.</p>';
+            }
+        }
+        
+        // Galeriyi oluştur
+        function createGallery(images) {
+            const mainImageContainer = document.getElementById('main-product-image');
+            const thumbnailContainer = document.getElementById('thumbnail-gallery');
+            
+            if (!mainImageContainer || !thumbnailContainer) return;
+            
+            // Görsel yoksa varsayılan görsel kullan
+            if (!images || images.length === 0) {
+                images = ['https://via.placeholder.com/500x500?text=Ürün+Görseli'];
+            }
+            
+            // URL kontrolü
+            images = images.map(img => {
+                if (img.startsWith('uploads/')) {
+                    // Yüklenen görselleri kontrol et
+                    const uploadedImg = getUploadedFile(img);
+                    return uploadedImg || 'https://via.placeholder.com/500x500?text=Ürün+Görseli';
+                }
+                return img;
+            });
+            
+            // Ana görseli ayarla
+            const mainImg = document.createElement('img');
+            mainImg.src = images[0];
+            mainImg.alt = "Ürün Görseli";
+            mainImageContainer.innerHTML = '';
+            mainImageContainer.appendChild(mainImg);
+            
+            // Küçük görselleri oluştur
+            thumbnailContainer.innerHTML = '';
+            images.forEach((image, index) => {
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                thumbnailDiv.dataset.index = index;
+                
+                const img = document.createElement('img');
+                img.src = image;
+                img.alt = `Ürün Görseli ${index + 1}`;
+                
+                thumbnailDiv.appendChild(img);
+                thumbnailContainer.appendChild(thumbnailDiv);
+                
+                // Küçük görsele tıklama olayı ekle
+                thumbnailDiv.addEventListener('click', function() {
+                    // Aktif olan küçük görseli değiştir
+                    document.querySelectorAll('.thumbnail').forEach(thumb => {
+                        thumb.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Ana görseli güncelle
+                    mainImg.src = images[this.dataset.index];
+                });
+            });
+        }
+        
+        // Benzer ürünleri yükle
+        function loadSimilarProducts(categoryId, currentProductId) {
+            const similarProductsContainer = document.getElementById('similar-products');
+            if (!similarProductsContainer) return;
+            
+            // Kategori ID'ye göre kategori URL'sini belirle
+            const categoryUrls = {
+                'tv': 'kategori-televizyon.html',
+                'beyaz-esya': 'kategori-beyaz-esya.html',
+                'kucuk-ev-aletleri': 'kategori-kucuk-ev-aletleri.html',
+                'kisisel-bakim': 'kategori-kisisel-bakim.html'
+            };
+            
+            // Tüm ürünleri al
+            const allProducts = ProductManager.getAllProducts();
+            
+            // Aynı kategorideki ve aktif olan ürünleri filtrele, mevcut ürünü hariç tut
+            const similarProducts = allProducts.filter(p => 
+                p.category === categoryId && 
+                p.id !== currentProductId && 
+                p.status === 'active'
+            );
+            
+            // En fazla 4 ürün göster
+            const productsToShow = similarProducts.slice(0, 4);
+            
+            // Eğer benzer ürün yoksa, bölümü gizle
+            if (productsToShow.length === 0) {
+                document.querySelector('.similar-products').style.display = 'none';
+                return;
+            }
+            
+            // Benzer ürünleri ekle
+            similarProductsContainer.innerHTML = '';
+            productsToShow.forEach(product => {
+                // Ürün kartını oluştur
+                const card = createProductCard(product);
+                similarProductsContainer.appendChild(card);
+            });
+        }
+        
+        // Basit bir ürün kartı oluştur
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card product-card-similar';
+            
+            // Ürün görseli
+            let imageUrl = 'https://via.placeholder.com/300x300?text=Ürün+Görseli';
+            if (product.images && product.images.length > 0) {
+                imageUrl = product.images[0];
+                if (imageUrl.startsWith('uploads/')) {
+                    const uploadedImg = getUploadedFile(imageUrl);
+                    if (uploadedImg) {
+                        imageUrl = uploadedImg;
+                    }
+                }
+            }
+            
+            // İndirim hesaplama
+            let discountBadge = '';
+            let oldPriceHtml = '';
+            
+            if (product.oldPrice && product.price) {
+                const oldPrice = parseFloat(product.oldPrice);
+                const currentPrice = parseFloat(product.price);
+                
+                if (oldPrice > currentPrice) {
+                    const discountPercent = Math.round((oldPrice - currentPrice) / oldPrice * 100);
+                    if (discountPercent > 0) {
+                        discountBadge = `<div class="discount-badge">%${discountPercent} İndirim</div>`;
+                        oldPriceHtml = `<p class="product-old-price">${product.oldPrice} TL</p>`;
+                    }
+                }
+            }
+            
+            // Ürün kartı içeriği
+            card.innerHTML = `
+                ${discountBadge}
+                <div class="product-image" style="height: 180px">
+                    <a href="urun-detay.html?id=${product.id}">
+                        <img src="${imageUrl}" alt="${product.name}">
+                    </a>
+                </div>
+                <div class="product-info">
+                    <h3 style="font-size: 16px">
+                        <a href="urun-detay.html?id=${product.id}" style="color: inherit; text-decoration: none;">
+                            ${product.name}
+                        </a>
+                    </h3>
+                    ${oldPriceHtml}
+                    <p class="product-price">${product.price} TL</p>
+                    <div class="product-actions">
+                        <a href="urun-detay.html?id=${product.id}" class="btn btn-detail">
+                            <i class="fas fa-search"></i> İncele
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Kategoriye dönüş butonunu ayarla
+        function setupCategoryButton(categoryId) {
+            const categoryBackBtn = document.getElementById('category-back-btn');
+            if (!categoryBackBtn) return;
+            
+            // Kategori ID'ye göre kategori URL'sini ve adını belirle
+            const categoryMap = {
+                'tv': { url: 'kategori-televizyon.html', name: 'Televizyon' },
+                'beyaz-esya': { url: 'kategori-beyaz-esya.html', name: 'Beyaz Eşya' },
+                'kucuk-ev-aletleri': { url: 'kategori-kucuk-ev-aletleri.html', name: 'Küçük Ev Aletleri' },
+                'kisisel-bakim': { url: 'kategori-kisisel-bakim.html', name: 'Kişisel Bakım' }
+            };
+            
+            // Kategori bilgisini al
+            const category = categoryMap[categoryId] || { url: 'index.html', name: 'Ana Sayfa' };
+            
+            // Butonu güncelle
+            categoryBackBtn.href = category.url;
+            categoryBackBtn.innerHTML = `<i class="fas fa-arrow-left"></i> ${category.name}'e Dön`;
+        }
+        
+        // Yüklenen görselleri al (Upload Handler)
+        function getUploadedFile(path) {
+            if (!path || !path.startsWith('uploads/')) return null;
+            
+            try {
+                const uploads = JSON.parse(localStorage.getItem('uploaded_files') || '{}');
+                return uploads[path] || null;
+            } catch (error) {
+                console.error('Yüklenen dosya alınamadı:', error);
+                return null;
+            }
+        }
+    </script>
+</body>
+</html> 

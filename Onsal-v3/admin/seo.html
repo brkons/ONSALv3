@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Ayarları - Onsal Elektronik Yönetim Paneli</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .seo-counter {
+            font-size: 12px;
+            text-align: right;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .seo-counter.warning {
+            color: #f39c12;
+        }
+        
+        .seo-counter.danger {
+            color: #e74c3c;
+        }
+        
+        .file-upload-container {
+            margin-top: 10px;
+        }
+        
+        #og-image-preview, #favicon-preview {
+            width: 100%;
+            max-width: 300px;
+            border: 1px dashed #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        #favicon-preview {
+            max-width: 150px;
+        }
+        
+        #og-image-preview img, #favicon-preview img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        
+        .sitemap-status {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .sitemap-info {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .sitemap-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .bg-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .bg-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Elektronik</h2>
+                <p>Yönetim Paneli</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="products">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                    <i class="fas fa-chevron-down submenu-toggle"></i>
+                    
+                    <ul class="sidebar-submenu">
+                        <li class="sidebar-submenu-item" data-page="products-list">
+                            <i class="fas fa-list"></i>
+                            <span>Ürün Listesi</span>
+                        </li>
+                        <li class="sidebar-submenu-item" data-page="products-add">
+                            <i class="fas fa-plus"></i>
+                            <span>Ürün Ekle</span>
+                        </li>
+                        <li class="sidebar-submenu-item" data-page="products-categories">
+                            <i class="fas fa-tags"></i>
+                            <span>Kategoriler</span>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="banners">
+                    <i class="fas fa-images"></i>
+                    <span>Banner Yönetimi</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                </li>
+                
+                <li class="sidebar-menu-item active" data-page="seo">
+                    <i class="fas fa-search"></i>
+                    <span>SEO Ayarları</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </li>
+            </ul>
+            
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="header-title">SEO Ayarları</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-user">
+                        <div class="header-user-avatar">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Admin">
+                        </div>
+                        <span class="header-user-name">Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                        
+                        <div class="header-user-dropdown" id="user-dropdown">
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Profil</span>
+                            </a>
+                            <a href="#" class="header-user-dropdown-item" id="logout-button">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">SEO Ayarları</h2>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" id="save-seo-button">
+                                <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="section-title">
+                            <i class="fas fa-cog"></i> Genel SEO Ayarları
+                        </div>
+                        
+                        <form class="seo-form" id="general-seo-form">
+                            <div class="form-group">
+                                <label for="site-title">Site Başlığı</label>
+                                <input type="text" class="form-control" id="site-title" name="site-title" value="Onsal Elektronik - Kaliteli Elektronik Ürünler">
+                                <div class="seo-counter">
+                                    <span id="site-title-counter">45</span>/60
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-description">Site Açıklaması</label>
+                                <textarea class="form-control" id="site-description" name="site-description" rows="3">Onsal Elektronik'te en yeni teknoloji ürünleri ve en uygun fiyatlar. Televizyon, beyaz eşya, küçük ev aletleri ve kişisel bakım ürünleri.</textarea>
+                                <div class="seo-counter">
+                                    <span id="site-description-counter">142</span>/160
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-keywords">Anahtar Kelimeler</label>
+                                <input type="text" class="form-control" id="site-keywords" name="site-keywords" value="elektronik, televizyon, beyaz eşya, küçük ev aletleri, kişisel bakım">
+                                <small class="form-text">Anahtar kelimeleri virgülle ayırın.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="google-analytics">Google Analytics Kodu</label>
+                                <textarea class="form-control" id="google-analytics" name="google-analytics" rows="3" placeholder="Google Analytics izleme kodunu buraya yapıştırın"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="google-search-console">Google Search Console Doğrulama</label>
+                                <input type="text" class="form-control" id="google-search-console" name="google-search-console" placeholder="Google Search Console meta tag doğrulama kodunu girin">
+                            </div>
+                        </form>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-share-alt"></i> Sosyal Medya Entegrasyonu
+                        </div>
+                        
+                        <form class="seo-form" id="social-media-form">
+                            <div class="form-group">
+                                <label for="og-title">Open Graph Başlık</label>
+                                <input type="text" class="form-control" id="og-title" name="og-title" value="Onsal Elektronik - Kaliteli Elektronik Ürünler">
+                                <small class="form-text">Facebook ve diğer sosyal medya platformlarında paylaşıldığında görünecek başlık.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="og-description">Open Graph Açıklama</label>
+                                <textarea class="form-control" id="og-description" name="og-description" rows="3">Onsal Elektronik'te en yeni teknoloji ürünleri ve en uygun fiyatlar. Televizyon, beyaz eşya, küçük ev aletleri ve kişisel bakım ürünleri.</textarea>
+                                <small class="form-text">Facebook ve diğer sosyal medya platformlarında paylaşıldığında görünecek açıklama.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="site-favicon">Site Favicon</label>
+                                <div class="file-upload">
+                                    <input type="file" id="site-favicon" name="site-favicon" class="file-upload-input" accept="image/png, image/x-icon">
+                                    <label for="site-favicon" class="file-upload-button">
+                                        <i class="fas fa-upload"></i> Favicon Seç
+                                    </label>
+                                </div>
+                                <small class="form-text">PNG veya ICO formatında yükleyin. Önerilen boyut: 32x32 piksel.</small>
+                                <div class="image-preview" id="favicon-preview" style="display: none; max-width: 100px; max-height: 100px; border: 1px solid #ddd; margin-top: 10px; padding: 5px;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="og-image">Open Graph Resmi</label>
+                                <div class="file-upload">
+                                    <input type="file" id="og-image" name="og-image" class="file-upload-input" accept="image/*">
+                                    <label for="og-image" class="file-upload-button">
+                                        <i class="fas fa-upload"></i> OG Resmi Seç
+                                    </label>
+                                </div>
+                                <small class="form-text">Sosyal medyada paylaşıldığında görünecek resim. Önerilen boyut: 1200x630 piksel.</small>
+                                <div class="image-preview" id="og-image-preview" style="display: none; max-width: 300px; max-height: 160px; border: 1px solid #ddd; margin-top: 10px; padding: 5px;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="twitter-card">Twitter Kart Tipi</label>
+                                <select class="form-control" id="twitter-card" name="twitter-card">
+                                    <option value="summary">Summary</option>
+                                    <option value="summary_large_image" selected>Summary Large Image</option>
+                                    <option value="app">App</option>
+                                    <option value="player">Player</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="twitter-site">Twitter Site Kullanıcı Adı</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">@</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="twitter-site" name="twitter-site" value="onsalelektronik">
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-robot"></i> Robots.txt ve Sitemap
+                        </div>
+                        
+                        <form class="seo-form" id="robots-sitemap-form">
+                            <div class="form-group">
+                                <label for="robots-txt">Robots.txt İçeriği</label>
+                                <textarea class="form-control" id="robots-txt" name="robots-txt" rows="6">User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /cgi-bin/
+
+Sitemap: https://www.onsalelektronik.com/sitemap.xml</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="auto-generate-sitemap" name="auto-generate-sitemap" checked>
+                                    <label class="form-check-label" for="auto-generate-sitemap">
+                                        Sitemap'i otomatik olarak oluştur
+                                    </label>
+                                </div>
+                                <small class="form-text">İşaretlendiğinde, sitemap.xml dosyası otomatik olarak oluşturulur ve güncellenir.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Sitemap Durumu</label>
+                                <div class="sitemap-status">
+                                    <div class="sitemap-info">
+                                        <span class="badge bg-success">Aktif</span>
+                                        <span>Son güncelleme: 01.02.2024 14:30</span>
+                                        <span>URL sayısı: 42</span>
+                                    </div>
+                                    <div class="sitemap-actions">
+                                        <button type="button" class="btn btn-sm btn-primary" id="generate-sitemap-button">
+                                            <i class="fas fa-sync-alt"></i> Yeniden Oluştur
+                                        </button>
+                                        <a href="#" class="btn btn-sm btn-info" id="view-sitemap-button">
+                                            <i class="fas fa-eye"></i> Görüntüle
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-code"></i> Yapısal Veri (Schema.org)
+                        </div>
+                        
+                        <form class="seo-form" id="schema-form">
+                            <div class="form-group">
+                                <label for="schema-type">Organizasyon Tipi</label>
+                                <select class="form-control" id="schema-type" name="schema-type">
+                                    <option value="Organization" selected>Organization</option>
+                                    <option value="LocalBusiness">LocalBusiness</option>
+                                    <option value="Store">Store</option>
+                                    <option value="ElectronicsStore">ElectronicsStore</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schema-name">Organizasyon Adı</label>
+                                <input type="text" class="form-control" id="schema-name" name="schema-name" value="Onsal Elektronik">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schema-url">Web Sitesi URL</label>
+                                <input type="text" class="form-control" id="schema-url" name="schema-url" value="https://www.onsalelektronik.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schema-logo">Logo URL</label>
+                                <input type="text" class="form-control" id="schema-logo" name="schema-logo" value="https://www.onsalelektronik.com/assets/img/logo.png">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schema-address">Adres</label>
+                                <textarea class="form-control" id="schema-address" name="schema-address" rows="3">Atatürk Cad. No:123 Kadıköy/İstanbul, Türkiye</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schema-phone">Telefon</label>
+                                <input type="text" class="form-control" id="schema-phone" name="schema-phone" value="+90 (216) 123 45 67">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schema-email">E-posta</label>
+                                <input type="email" class="form-control" id="schema-email" name="schema-email" value="info@onsalelektronik.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="enable-breadcrumbs" name="enable-breadcrumbs" checked>
+                                    <label class="form-check-label" for="enable-breadcrumbs">
+                                        Breadcrumbs yapısal verisini etkinleştir
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="enable-product-schema" name="enable-product-schema" checked>
+                                    <label class="form-check-label" for="enable-product-schema">
+                                        Ürün yapısal verisini etkinleştir
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Giriş kontrolü - basit tutuyoruz
+            if (!localStorage.getItem('adminLoggedIn')) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // ŞİMDİYE KADAR EN BASİT, EN DOĞRUDAN MENÜ KODU
+            // Her menü öğesine doğrudan hrefs ekleyerek çalışmasını sağlıyoruz
+            
+            // 1. Tüm ana menü öğelerine href özelliği ekle
+            document.querySelectorAll('.sidebar-menu-item').forEach(function(item) {
+                if (item.classList.contains('active')) return; // Aktif öğeyi atla
+                
+                const page = item.getAttribute('data-page');
+                if (page) {
+                    item.style.cursor = "pointer";
+                    
+                    // Alt menü varsa farklı davran
+                    if (item.querySelector('.sidebar-submenu')) {
+                        item.addEventListener('click', function(e) {
+                            // Alt menü butonuna tıklandıysa açılıp kapanma
+                            if (e.target.classList.contains('submenu-toggle') || 
+                                e.target.closest('.submenu-toggle')) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const submenu = this.querySelector('.sidebar-submenu');
+                                submenu.classList.toggle('open');
+                                return;
+                            }
+                            
+                            // Alt öğeye tıklanmışsa işlem yapma
+                            if (e.target.closest('.sidebar-submenu-item')) return;
+                            
+                            // Ana menüye tıklandığında alt menüyü aç/kapat
+                            const submenu = this.querySelector('.sidebar-submenu');
+                            submenu.classList.toggle('open');
+                        });
+                    } else {
+                        // Alt menüsü yoksa direkt sayfaya git
+                        item.addEventListener('click', function(e) {
+                            window.location.href = page + '.html';
+                        });
+                    }
+                }
+            });
+            
+            // 2. Tüm alt menü öğelerine click event ekle
+            document.querySelectorAll('.sidebar-submenu-item').forEach(function(item) {
+                if (item.classList.contains('active')) return; // Aktif öğeyi atla
+                
+                const page = item.getAttribute('data-page');
+                if (page) {
+                    item.style.cursor = "pointer";
+                    
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.location.href = page + '.html';
+                    });
+                }
+            });
+            
+            // 3. Alt menü aç/kapat iconları (chevron)
+            document.querySelectorAll('.submenu-toggle').forEach(function(toggle) {
+                toggle.style.cursor = "pointer";
+                
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const menuItem = this.closest('.sidebar-menu-item');
+                    const submenu = menuItem.querySelector('.sidebar-submenu');
+                    submenu.classList.toggle('open');
+                });
+            });
+                
+            // ---- SİDEBAR VE KULLANICI MENÜSÜ ----
+            // Sidebar Toggle - basit tutuyoruz
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (sidebarToggle && sidebar && mainContent) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('expanded');
+                });
+            }
+            
+            // Kullanıcı Dropdown
+            const headerUser = document.querySelector('.header-user');
+            const userDropdown = document.getElementById('user-dropdown');
+            
+            if (headerUser && userDropdown) {
+                headerUser.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userDropdown.classList.toggle('show');
+                });
+                
+                // Sayfa herhangi bir yerine tıklandığında dropdown'ı kapat
+                document.addEventListener('click', function(e) {
+                    if (userDropdown && !headerUser.contains(e.target)) {
+                        userDropdown.classList.remove('show');
+                    }
+                });
+            }
+            
+            // Çıkış Yap
+            const logoutButton = document.getElementById('logout-button');
+            
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('adminLoggedIn');
+                    localStorage.removeItem('adminUsername');
+                    localStorage.removeItem('adminLastLogin');
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            // ----- SEO SAYFASI FONKSİYONLARI -----
+            
+            // RESİM YÜKLEME FONKSİYONLARI - ÇOK DAHA BASİT VE DOĞRUDAN
+            
+            // Favicon yükleme
+            const faviconInput = document.getElementById('site-favicon');
+            const faviconPreview = document.getElementById('favicon-preview');
+            
+            if (faviconInput && faviconPreview) {
+                // Daha önce yüklenen favicon'u göster
+                const savedFavicon = localStorage.getItem('seo_favicon');
+                if (savedFavicon) {
+                    faviconPreview.innerHTML = `
+                        <img src="${savedFavicon}" style="max-width: 64px; max-height: 64px;">
+                        <button type="button" class="btn btn-sm btn-danger" id="remove-favicon">
+                            <i class="fas fa-trash"></i> Favicon'u Kaldır
+                        </button>
+                    `;
+                    faviconPreview.style.display = 'block';
+                    
+                    // Silme butonu işlevi
+                    document.getElementById('remove-favicon').addEventListener('click', function() {
+                        localStorage.removeItem('seo_favicon');
+                        faviconPreview.innerHTML = '';
+                        faviconPreview.style.display = 'none';
+                        faviconInput.value = '';
+                    });
+                }
+                
+                // Yeni favicon yükleme
+                faviconInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        if (!file.type.match('image.*')) {
+                            alert('Lütfen bir resim dosyası seçin.');
+                            return;
+                        }
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgData = e.target.result;
+                            
+                            // LocalStorage'a kaydet
+                            try {
+                                localStorage.setItem('seo_favicon', imgData);
+                            } catch (error) {
+                                console.error('Favicon kaydedilemedi:', error);
+                                alert('Favicon çok büyük, kaydedilemedi.');
+                                return;
+                            }
+                            
+                            // Önizleme göster
+                            faviconPreview.innerHTML = `
+                                <img src="${imgData}" style="max-width: 64px; max-height: 64px;">
+                                <button type="button" class="btn btn-sm btn-danger" id="remove-favicon">
+                                    <i class="fas fa-trash"></i> Favicon'u Kaldır
+                                </button>
+                            `;
+                            faviconPreview.style.display = 'block';
+                            
+                            // Silme butonu işlevi
+                            document.getElementById('remove-favicon').addEventListener('click', function() {
+                                localStorage.removeItem('seo_favicon');
+                                faviconPreview.innerHTML = '';
+                                faviconPreview.style.display = 'none';
+                                faviconInput.value = '';
+                            });
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            // OG Resim yükleme
+            const ogImageInput = document.getElementById('og-image');
+            const ogImagePreview = document.getElementById('og-image-preview');
+            
+            if (ogImageInput && ogImagePreview) {
+                // Daha önce yüklenen OG resmini göster
+                const savedOgImage = localStorage.getItem('seo_og_image');
+                if (savedOgImage) {
+                    ogImagePreview.innerHTML = `
+                        <img src="${savedOgImage}" style="max-width: 100%; max-height: 200px;">
+                        <button type="button" class="btn btn-sm btn-danger" id="remove-og-image">
+                            <i class="fas fa-trash"></i> Resmi Kaldır
+                        </button>
+                    `;
+                    ogImagePreview.style.display = 'block';
+                    
+                    // Silme butonu işlevi
+                    document.getElementById('remove-og-image').addEventListener('click', function() {
+                        localStorage.removeItem('seo_og_image');
+                        ogImagePreview.innerHTML = '';
+                        ogImagePreview.style.display = 'none';
+                        ogImageInput.value = '';
+                    });
+                }
+                
+                // Yeni OG resmi yükleme
+                ogImageInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        if (!file.type.match('image.*')) {
+                            alert('Lütfen bir resim dosyası seçin.');
+                            return;
+                        }
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgData = e.target.result;
+                            
+                            // LocalStorage'a kaydet
+                            try {
+                                localStorage.setItem('seo_og_image', imgData);
+                            } catch (error) {
+                                console.error('OG resmi kaydedilemedi:', error);
+                                alert('OG resmi çok büyük, kaydedilemedi.');
+                                return;
+                            }
+                            
+                            // Önizleme göster
+                            ogImagePreview.innerHTML = `
+                                <img src="${imgData}" style="max-width: 100%; max-height: 200px;">
+                                <button type="button" class="btn btn-sm btn-danger" id="remove-og-image">
+                                    <i class="fas fa-trash"></i> Resmi Kaldır
+                                </button>
+                            `;
+                            ogImagePreview.style.display = 'block';
+                            
+                            // Silme butonu işlevi
+                            document.getElementById('remove-og-image').addEventListener('click', function() {
+                                localStorage.removeItem('seo_og_image');
+                                ogImagePreview.innerHTML = '';
+                                ogImagePreview.style.display = 'none';
+                                ogImageInput.value = '';
+                            });
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            // SEO Karakter Sayaçları
+            const siteTitleInput = document.getElementById('site-title');
+            const siteDescriptionInput = document.getElementById('site-description');
+            const siteTitleCounter = document.getElementById('site-title-counter');
+            const siteDescriptionCounter = document.getElementById('site-description-counter');
+            
+            if (siteTitleInput && siteTitleCounter) {
+                // Başlangıçta karakter sayısını göster
+                siteTitleCounter.textContent = siteTitleInput.value.length;
+                
+                // Girdi değiştiğinde sayacı güncelle
+                siteTitleInput.addEventListener('input', function() {
+                    const count = this.value.length;
+                    siteTitleCounter.textContent = count;
+                    
+                    if (count > 60) {
+                        siteTitleCounter.parentElement.classList.add('danger');
+                        siteTitleCounter.parentElement.classList.remove('warning');
+                    } else if (count > 50) {
+                        siteTitleCounter.parentElement.classList.add('warning');
+                        siteTitleCounter.parentElement.classList.remove('danger');
+                    } else {
+                        siteTitleCounter.parentElement.classList.remove('warning', 'danger');
+                    }
+                });
+            }
+            
+            if (siteDescriptionInput && siteDescriptionCounter) {
+                // Başlangıçta karakter sayısını göster
+                siteDescriptionCounter.textContent = siteDescriptionInput.value.length;
+                
+                // Girdi değiştiğinde sayacı güncelle
+                siteDescriptionInput.addEventListener('input', function() {
+                    const count = this.value.length;
+                    siteDescriptionCounter.textContent = count;
+                    
+                    if (count > 160) {
+                        siteDescriptionCounter.parentElement.classList.add('danger');
+                        siteDescriptionCounter.parentElement.classList.remove('warning');
+                    } else if (count > 140) {
+                        siteDescriptionCounter.parentElement.classList.add('warning');
+                        siteDescriptionCounter.parentElement.classList.remove('danger');
+                    } else {
+                        siteDescriptionCounter.parentElement.classList.remove('warning', 'danger');
+                    }
+                });
+            }
+            
+            // SEO Ayarlarını Kaydet
+            const saveSeoButton = document.getElementById('save-seo-button');
+            
+            if (saveSeoButton) {
+                saveSeoButton.addEventListener('click', function() {
+                    // Kaydediyor mesajı göster
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    this.disabled = true;
+                    
+                    // Form verilerini topla
+                    const seoSettings = {};
+                    
+                    // Input, select ve textarea elementlerinden veri topla
+                    document.querySelectorAll('input:not([type="file"]), select, textarea').forEach(el => {
+                        if (el.type === 'checkbox') {
+                            seoSettings[el.id] = el.checked;
+                        } else {
+                            seoSettings[el.id] = el.value;
+                        }
+                    });
+                    
+                    // LocalStorage'a kaydet
+                    try {
+                        localStorage.setItem('seoSettings', JSON.stringify(seoSettings));
+                        
+                        // Başarı mesajı göster
+                        setTimeout(() => {
+                            saveSeoButton.innerHTML = '<i class="fas fa-save"></i> Değişiklikleri Kaydet';
+                            saveSeoButton.disabled = false;
+                            alert('SEO ayarları başarıyla kaydedildi.');
+                        }, 800);
+                    } catch (error) {
+                        console.error('SEO ayarları kaydedilemedi:', error);
+                        
+                        // Hata mesajı göster
+                        setTimeout(() => {
+                            saveSeoButton.innerHTML = '<i class="fas fa-save"></i> Değişiklikleri Kaydet';
+                            saveSeoButton.disabled = false;
+                            alert('SEO ayarları kaydedilemedi. Lütfen tekrar deneyin.');
+                        }, 800);
+                    }
+                });
+            }
+            
+            // Kaydedilmiş SEO Ayarlarını Yükle
+            function loadSeoSettings() {
+                const savedSettings = localStorage.getItem('seoSettings');
+                if (!savedSettings) return;
+                
+                try {
+                    const settings = JSON.parse(savedSettings);
+                    
+                    // Form elemanlarına değerleri aktar
+                    for (const [key, value] of Object.entries(settings)) {
+                        const element = document.getElementById(key);
+                        if (!element) continue;
+                        
+                        if (element.type === 'checkbox') {
+                            element.checked = value;
+                        } else {
+                            element.value = value;
+                        }
+                    }
+                    
+                    // Karakter sayaçlarını güncelle
+                    if (siteTitleInput && siteTitleCounter) {
+                        siteTitleCounter.textContent = siteTitleInput.value.length;
+                    }
+                    if (siteDescriptionInput && siteDescriptionCounter) {
+                        siteDescriptionCounter.textContent = siteDescriptionInput.value.length;
+                    }
+                } catch (error) {
+                    console.error('Kaydedilmiş SEO ayarları yüklenemedi:', error);
+                }
+            }
+            
+            // Sayfa yüklendiğinde ayarları yükle
+            loadSeoSettings();
+            
+            // Sitemap oluşturma butonu
+            const generateSitemapButton = document.getElementById('generate-sitemap-button');
+            
+            if (generateSitemapButton) {
+                generateSitemapButton.addEventListener('click', function() {
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yenileniyor...';
+                    this.disabled = true;
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-sync-alt"></i> Yeniden Oluştur';
+                        this.disabled = false;
+                        alert('Sitemap başarıyla güncellendi.');
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

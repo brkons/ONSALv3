@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Televizyonlar - Onsal Elektronik</title>
+    <meta name="description" content="Onsal Elektronik'te en uygun fiyat garantisi ve ücretsiz teslimat ile elektronik ürünler.">
+    <meta name="keywords" content="elektronik, televizyon, beyaz eşya, küçük ev aletleri, Onsal Elektronik">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product-card.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Upload Handler için -->
+    <script>
+        // Uploads yönetimi için yardımcı fonksiyonlar
+        const UploadHandler = {
+            getUploadedFile: function(path) {
+                if (!path || !path.startsWith('uploads/')) return null;
+                
+                try {
+                    const uploads = JSON.parse(localStorage.getItem('uploaded_files') || '{}');
+                    return uploads[path] || null;
+                } catch (error) {
+                    console.error('Yüklenen dosya alınamadı:', error);
+                    return null;
+                }
+            }
+        };
+    </script>
+    <style>
+        /* Ürün kaydırmalı liste stilleri */
+        .products-carousel {
+            margin: 50px 0;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .carousel-container {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+            padding: 20px 0;
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari/Opera */
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .carousel-item {
+            min-width: 300px;
+            flex: 0 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .carousel-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 5;
+            padding: 0 10px;
+        }
+
+        .carousel-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .carousel-button:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .category-icons-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 20px;
+            margin-top: 25px;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+            justify-content: center;
+        }
+
+        .category-icons-grid::-webkit-scrollbar {
+            display: none; /* Chrome/Safari/Opera */
+        }
+
+        .category-icon-item {
+            flex: 0 0 auto;
+            min-width: 80px;
+            width: 120px; /* Sabit genişlik */
+            text-align: center;
+            white-space: normal; /* Yazının iki satıra geçmesini sağlar */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .category-icon-item i {
+            font-size: 24px;
+            width: 70px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .category-icon-item:hover i {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .category-icon-item span.material-icons {
+            font-size: 36px; /* İkon boyutunu artırdım */
+            width: 70px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .category-icon-item:hover span.material-icons {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .category-icon-item.active span.material-icons {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .category-icon-item span {
+            font-size: 14px; /* Yazı boyutunu sabit tut */
+            font-weight: 500;
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2; /* İki satır görünümünü sağlar */
+        }
+    </style>
+</head>
+<body>
+    <header class="header-transparent">
+        <nav>
+            <div class="logo">
+                <a href="index.html">ONSAL</a>
+            </div>
+            <div class="menu-center">
+                <a href="kategori-televizyon.html" class="menu-item">Televizyon</a>
+                <a href="kategori-beyaz-esya.html" class="menu-item">Beyaz Eşya</a>
+                <a href="kategori-kucuk-ev-aletleri.html" class="menu-item">Küçük Ev Aletleri</a>
+                <a href="kategori-kisisel-bakim.html" class="menu-item">Kişisel Bakım</a>
+            </div>
+            <div class="menu-right">
+                <a href="iletisim.html" class="contact-icon" title="İletişim">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <button class="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="mobile-menu-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="kategori-televizyon.html">Televizyon</a>
+        <a href="kategori-beyaz-esya.html">Beyaz Eşya</a>
+        <a href="kategori-kucuk-ev-aletleri.html">Küçük Ev Aletleri</a>
+        <a href="kategori-kisisel-bakim.html">Kişisel Bakım</a>
+        <a href="iletisim.html">İletişim</a>
+    </div>
+
+    <div class="overlay"></div>
+
+    <main>
+        <!-- Hero Section - Tesla Style -->
+        <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80')">
+            <div class="hero-content">
+                <h1>Televizyonlar</h1>
+                <p>En yeni teknoloji televizyonlar ve en uygun fiyatlar</p>
+                
+                <!-- TV Category Icons -->
+                <div class="category-icons-grid">
+                    <a href="#products-container" class="category-icon-item active" data-filter="all">
+                        <span class="material-icons">apps</span>
+                        <span>Tüm<br>Ürünler</span>
+                    </a>
+                    <a href="#products-container" class="category-icon-item" data-filter="oled">
+                        <i class="fas fa-tv"></i>
+                        <span>Oled TV</span>
+                    </a>
+                    <a href="#products-container" class="category-icon-item" data-filter="qned">
+                        <i class="fas fa-digital-tachograph"></i>
+                        <span>Qned TV</span>
+                    </a>
+                    <a href="#products-container" class="category-icon-item" data-filter="uhd">
+                        <i class="fas fa-photo-video"></i>
+                        <span>UHD TV</span>
+                    </a>
+                    <a href="#products-container" class="category-icon-item" data-filter="smart">
+                        <i class="fas fa-wifi"></i>
+                        <span>Smart TV</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-scroll">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Ürün Listesi Ana Bölüm -->
+        <section class="products-grid" id="products-container">
+            <!-- Burayı boş bırakıyoruz, ürünler JavaScript ile yüklenecek -->
+        </section>
+
+        <!-- Benzer Ürünler Yatay Kaydırmalı Bölüm -->
+        <section class="products-carousel">
+            <h2 style="text-align: center; margin-bottom: 20px;">Benzer Ürünler</h2>
+            
+            <div class="carousel-nav">
+                <button class="carousel-button prev-button">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-button next-button">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="carousel-track" id="related-products">
+                    <!-- Benzer ürünler buraya yüklenecek -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="tel:+902161234567">+90 (216) 123 45 67</a>
+            <span>|</span>
+            <span>© 2024 Onsal Elektronik</span>
+            <span>|</span>
+            <a href="iletisim.html">İletişim</a>
+            
+            <div class="social-links">
+                <a href="https://wa.me/905551234567">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://instagram.com/onsalelektronik">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script src="js/product-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productsContainer = document.getElementById('products-container');
+            const relatedProductsContainer = document.getElementById('related-products');
+            const categoryId = 'tv'; // Bu sayfa için kategori ID'si
+            
+            // Ana ürünleri yükle
+            loadCategoryProducts();
+            
+            // Benzer ürünleri yükle
+            loadRelatedProducts();
+            
+            // Kategori ürünlerini yükleme fonksiyonu
+            function loadCategoryProducts() {
+                // ProductManager'dan tüm ürünleri al
+                const allProducts = ProductManager.getAllProducts();
+                
+                // Bu kategoriye ait aktif ürünleri filtrele
+                const products = allProducts.filter(product => 
+                    product.category === categoryId && product.status === 'active'
+                );
+                
+                // Ürün yoksa boş bırak
+                if (products.length === 0) {
+                    return;
+                }
+                
+                // Ürünleri listele
+                products.forEach(product => {
+                    const productElement = createProductElement(product);
+                    productsContainer.appendChild(productElement);
+                });
+            }
+            
+            // Benzer ürünleri yükleme fonksiyonu
+            function loadRelatedProducts() {
+                // ProductManager'dan tüm ürünleri al
+                const allProducts = ProductManager.getAllProducts();
+                
+                // Sadece aynı kategorideki aktif ürünleri filtrele
+                const categoryProducts = allProducts.filter(product => 
+                    product.category === categoryId && product.status === 'active'
+                );
+                
+                // Ürün yoksa kaydırmalı bölümü gizle
+                if (categoryProducts.length <= 3) {
+                    document.querySelector('.products-carousel').style.display = 'none';
+                    return;
+                }
+                
+                // Ürünleri listele (en fazla 9 ürün)
+                // İlk üç ürün zaten ana listede gösterildiği için, farklı ürünleri gösterelim
+                const productsToShow = categoryProducts.slice(3, 12);
+                
+                productsToShow.forEach(product => {
+                    const carouselItem = document.createElement('div');
+                    carouselItem.className = 'carousel-item';
+                    
+                    carouselItem.appendChild(createProductElement(product, true));
+                    relatedProductsContainer.appendChild(carouselItem);
+                });
+                
+                // Kaydırma butonlarını ayarla
+                setupCarouselButtons();
+            }
+            
+            // Ürün elementi oluşturan yardımcı fonksiyon - görüntüye göre güncellenmiş
+            function createProductElement(product, isSmall = false) {
+                // Ürün görseli
+                let imageUrl = 'https://via.placeholder.com/300x300?text=Ürün+Görseli';
+                if (product.images && product.images.length > 0) {
+                    if (product.images[0].startsWith('uploads/')) {
+                        const imageData = UploadHandler.getUploadedFile(product.images[0]);
+                        if (imageData) {
+                            imageUrl = imageData;
+                        }
+                    } else {
+                        imageUrl = product.images[0];
+                    }
+                }
+                
+                // İndirim hesaplama
+                let discountBadge = '';
+                let oldPriceHtml = '';
+                
+                if (product.oldPrice && product.price) {
+                    const oldPrice = parseFloat(product.oldPrice);
+                    const currentPrice = parseFloat(product.price);
+                    
+                    if (oldPrice > currentPrice) {
+                        const discountPercent = Math.round((oldPrice - currentPrice) / oldPrice * 100);
+                        if (discountPercent > 0) {
+                            discountBadge = `<div class="discount-badge">%${discountPercent} İndirim</div>`;
+                            oldPriceHtml = `<p class="product-old-price">${product.oldPrice} TL</p>`;
+                        }
+                    }
+                }
+                
+                // Ürün kartını oluştur
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                // Farklı kart boyutları için stil ayarlamaları
+                const imgHeight = isSmall ? '150px' : '250px';
+                const titleSize = isSmall ? '14px' : '18px';
+                
+                const brandLogo = product.brand ? 
+                    `<div class="brand-logo">
+                        <span>${product.brand}</span>
+                    </div>` : '';
+                
+                // Özellikler
+                const specs = [];
+                if (product.energyClass) specs.push(`${product.energyClass} Enerji Sınıfı`);
+                if (product.screenSize) specs.push(`${product.screenSize}" Ekran`);
+                if (product.programCount) specs.push(`${product.programCount} Program`);
+                if (product.capacity) specs.push(`${product.capacity} Kapasite`);
+                if (product.features && product.features.length) {
+                    product.features.forEach(feature => specs.push(feature));
+                }
+                
+                const specsHtml = specs.length ? 
+                    `<div class="product-specs">${specs.join(', ')}</div>` : '';
+                
+                productCard.innerHTML = `
+                    ${discountBadge}
+                    <div class="product-image" style="height: ${imgHeight}">
+                        <a href="urun-detay.html?id=${product.id}">
+                            <img src="${imageUrl}" alt="${product.name}">
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        ${brandLogo}
+                        <h3 style="font-size: ${titleSize}">
+                            <a href="urun-detay.html?id=${product.id}" style="color: inherit; text-decoration: none;">
+                                ${product.name}
+                            </a>
+                        </h3>
+                        ${oldPriceHtml}
+                        <p class="product-price">${product.price} TL</p>
+                        ${specsHtml}
+                        
+                        <div class="product-services">
+                            <div class="service-item">
+                                <i class="fas fa-tools"></i>
+                                <span>Teknik Servis</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>${product.warranty || '2'} Yıl Garanti</span>
+                            </div>
+                            <div class="service-item">
+                                <i class="fas fa-truck"></i>
+                                <span>Ücretsiz Kargo</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="urun-detay.html?id=${product.id}" class="btn btn-detail">
+                                <i class="fas fa-search"></i> Detaylı İncele
+                            </a>
+                            <a href="tel:+902161234567" class="btn btn-call">
+                                <i class="fas fa-phone"></i> Ara
+                            </a>
+                            <a href="https://wa.me/905551234567?text=Merhaba%2C%20${encodeURIComponent(product.name)}%20ürünü%20hakkında%20bilgi%20almak%20istiyorum" class="btn btn-message" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Mesaj
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                return productCard;
+            }
+            
+            // Kaydırma butonlarını ayarla
+            function setupCarouselButtons() {
+                const container = document.querySelector('.carousel-container');
+                const track = document.querySelector('.carousel-track');
+                const prevButton = document.querySelector('.prev-button');
+                const nextButton = document.querySelector('.next-button');
+                
+                if (!container || !track || !prevButton || !nextButton) return;
+                
+                // İleri butonu işlemi
+                nextButton.addEventListener('click', function() {
+                    container.scrollBy({
+                        left: 320,
+                        behavior: 'smooth'
+                    });
+                });
+                
+                // Geri butonu işlemi
+                prevButton.addEventListener('click', function() {
+                    container.scrollBy({
+                        left: -320,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // Alt kategori filtrelemesi için kod
+            const categoryIcons = document.querySelectorAll('.category-icon-item');
+            if (categoryIcons) {
+                categoryIcons.forEach(icon => {
+                    icon.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Aktif sınıfını diğerlerinden kaldır
+                        categoryIcons.forEach(i => i.classList.remove('active'));
+                        
+                        // Bu ikona aktif sınıfı ekle
+                        this.classList.add('active');
+                        
+                        // Filtreleme yap
+                        const filter = this.getAttribute('data-filter');
+                        console.log("Seçilen alt kategori:", filter);
+                        
+                        // Ürün bölümüne smooth scroll yap
+                        const productsSection = document.getElementById('products-container');
+                        if (productsSection) {
+                            productsSection.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                        
+                        // Filtreleme fonksiyonunu çağır
+                        filterProducts(filter);
+                    });
+                });
+            }
+            
+            // Ürünleri filtrele
+            function filterProducts(subcategory) {
+                const productsContainer = document.getElementById('products-container');
+                const allProducts = ProductManager.getAllProducts();
+                
+                // Kategorideki aktif ürünleri filtrele
+                const categoryProducts = allProducts.filter(p => 
+                    p.category === 'tv' && p.status === 'active'
+                );
+                
+                // Sayfayı temizle
+                productsContainer.innerHTML = '';
+                
+                let filteredProducts;
+                
+                // Alt kategori filtresi uygula
+                if (subcategory && subcategory !== 'all') {
+                    filteredProducts = categoryProducts.filter(p => p.subcategory === subcategory);
+                    console.log("Filtrelenmiş ürünler:", filteredProducts);
+                } else {
+                    filteredProducts = categoryProducts;
+                }
+                
+                // Sonuç yoksa mesaj göster
+                if (filteredProducts.length === 0) {
+                    productsContainer.innerHTML = `
+                        <div style="text-align:center; padding:50px; width:100%;">
+                            <i class="fas fa-search" style="font-size:48px; color:#ddd; margin-bottom:20px;"></i>
+                            <h3>Bu kategoride ürün bulunamadı</h3>
+                            <p>Filtreyi değiştirerek diğer ürünleri görüntüleyebilirsiniz.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Ürünleri listele
+                filteredProducts.forEach(product => {
+                    const productElement = createProductElement(product);
+                    productsContainer.appendChild(productElement);
+                });
+            }
+            
+            // CSS için stil ekleyelim
+            const style = document.createElement('style');
+            style.textContent = `
+                .category-icon-item.active i {
+                    background-color: var(--primary-color);
+                    color: white;
+                    transform: translateY(-5px);
+                }
+                
+                .no-results {
+                    text-align: center;
+                    padding: 40px 20px;
+                    width: 100%;
+                }
+                
+                .no-results i {
+                    font-size: 48px;
+                    color: #ccc;
+                    margin-bottom: 20px;
+                }
+                
+                .no-results p {
+                    margin-bottom: 20px;
+                    color: #666;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html> 

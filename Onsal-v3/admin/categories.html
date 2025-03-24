@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategoriler - Onsal Elektronik Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .category-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .category-icon {
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .category-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .category-id {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .category-count {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .category-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .add-category-card {
+            background-color: rgba(74, 98, 32, 0.1);
+            border: 2px dashed var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            height: 100%;
+            min-height: 200px;
+        }
+        
+        .add-category-card i {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .add-category-card p {
+            font-size: 16px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    </style>
+    <script src="../js/product-manager.js"></script>
+    <script src="../js/category-manager.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <a href="index.html">ONSAL</a>
+            </div>
+            
+            <nav class="admin-menu">
+                <a href="index.html">
+                    <i class="fas fa-tachometer-alt"></i> <span>Genel Bakış</span>
+                </a>
+                <a href="products-list.html">
+                    <i class="fas fa-box"></i> <span>Ürünler</span>
+                </a>
+                <a href="categories.html" class="active">
+                    <i class="fas fa-tags"></i> <span>Kategoriler</span>
+                </a>
+                <a href="banners.html">
+                    <i class="fas fa-images"></i> <span>Banner Yönetimi</span>
+                </a>
+                <a href="pages.html">
+                    <i class="fas fa-file-alt"></i> <span>Sayfalar</span>
+                </a>
+                <a href="settings.html">
+                    <i class="fas fa-cog"></i> <span>Ayarlar</span>
+                </a>
+            </nav>
+            
+            <div class="admin-logout">
+                <a href="../index.html">
+                    <i class="fas fa-sign-out-alt"></i> <span>Siteye Dön</span>
+                </a>
+            </div>
+        </aside>
+        
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1>Kategoriler</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="add-category-button">
+                        <i class="fas fa-plus"></i> Yeni Kategori
+                    </button>
+                </div>
+            </header>
+            
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2>Tüm Kategoriler</h2>
+                </div>
+                <div class="card-body">
+                    <div class="category-grid" id="categories-container">
+                        <!-- Kategoriler JavaScript ile dinamik olarak eklenecek -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Kategori Düzenleme Modalı -->
+    <div class="modal" id="category-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="category-modal-title">Kategori Ekle</h3>
+                    <button type="button" class="modal-close" id="category-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="category-form">
+                        <div class="form-group">
+                            <label for="category-name">Kategori Adı</label>
+                            <input type="text" class="form-control" id="category-name" name="category-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category-id">Kategori ID</label>
+                            <input type="text" class="form-control" id="category-id" name="category-id" required>
+                            <small>Kategori ID özel karakter içermemeli ve URL uyumlu olmalıdır. Örn: "televizyon", "beyaz-esya"</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category-icon">Kategori İkonu</label>
+                            <select class="form-control" id="category-icon" name="category-icon" required>
+                                <option value="fa-tv">Televizyon</option>
+                                <option value="fa-snowflake">Buzdolabı</option>
+                                <option value="fa-tshirt">Çamaşır Makinesi</option>
+                                <option value="fa-blender">Mutfak Aletleri</option>
+                                <option value="fa-wind">Saç Kurutma</option>
+                                <option value="fa-cut">Traş Makinesi</option>
+                                <option value="fa-tags">Genel</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="category-modal-cancel">İptal</button>
+                    <button type="button" class="btn btn-primary" id="category-modal-save">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Kategori Silme Onay Modalı -->
+    <div class="modal" id="category-delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Kategori Sil</h3>
+                    <button type="button" class="modal-close" id="category-delete-modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong id="delete-category-name">Kategori adı</strong> kategorisini silmek istediğinize emin misiniz?
+                    </p>
+                    <p>Bu kategoriye ait tüm ürünler kategorisiz kalacaktır.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="category-delete-modal-cancel">İptal</button>
+                    <button type="button" class="btn btn-danger" id="category-delete-modal-confirm">Evet, Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/admin-helpers.js"></script>
+    <script src="../js/admin-navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kategori yöneticisini kontrol et
+            if (typeof CategoryManager === 'undefined') {
+                alert("Kategori yöneticisi bulunamadı!");
+                console.error("CategoryManager bulunamadı");
+                return;
+            }
+            
+            // Mevcut kategorileri yükle
+            loadCategories();
+            
+            function loadCategories() {
+                const categories = CategoryManager.getAllCategories();
+                const categoriesContainer = document.getElementById('categories-container');
+                
+                if (!categoriesContainer) {
+                    console.error("Kategori container bulunamadı!");
+                    return;
+                }
+                
+                categoriesContainer.innerHTML = '';
+                
+                categories.forEach(category => {
+                    const categoryCard = document.createElement('div');
+                    categoryCard.className = 'category-card';
+                    
+                    // Ürün sayısını hesapla
+                    let productCount = 0;
+                    try {
+                        productCount = CategoryManager.countCategoryProducts(category.id);
+                    } catch (error) {
+                        console.error("Ürün sayısı hesaplanamadı:", error);
+                    }
+                    
+                    categoryCard.innerHTML = `
+                        <div class="category-icon">
+                            <i class="fas ${category.icon}"></i>
+                        </div>
+                        <div class="category-name">${category.name}</div>
+                        <div class="category-id">ID: ${category.id}</div>
+                        <div class="category-count">${productCount} Ürün</div>
+                        <div class="category-actions">
+                            <button class="btn btn-sm btn-secondary edit-category" data-id="${category.id}">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-category" data-id="${category.id}" data-name="${category.name}">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    `;
+                    
+                    categoriesContainer.appendChild(categoryCard);
+                });
+                
+                // Yeni Kategori Ekle card'ını ekle
+                const addCard = document.createElement('div');
+                addCard.className = 'category-card add-category-card';
+                addCard.innerHTML = `
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Yeni Kategori Ekle</p>
+                `;
+                addCard.addEventListener('click', function() {
+                    document.getElementById('add-category-button').click();
+                });
+                
+                categoriesContainer.appendChild(addCard);
+                
+                // Düzenleme butonlarına event listener ekle
+                document.querySelectorAll('.edit-category').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        showEditCategoryModal(id);
+                    });
+                });
+                
+                // Silme butonlarına event listener ekle
+                document.querySelectorAll('.delete-category').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const name = this.getAttribute('data-name');
+                        showDeleteCategoryModal(id, name);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

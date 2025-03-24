@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim Ayarları - Onsal Elektronik Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Admin</h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="products-list">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="categories">
+                    <i class="fas fa-tags"></i>
+                    <span>Kategoriler</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="banners">
+                    <i class="fas fa-images"></i>
+                    <span>Banner</span>
+                </div>
+                <div class="sidebar-menu-item active" data-page="contacts">
+                    <i class="fas fa-envelope"></i>
+                    <span>İletişim</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                </div>
+                <div class="sidebar-menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                </div>
+                <div class="sidebar-menu-item" id="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="admin-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="page-header">
+                    <h1>İletişim Bilgileri Yönetimi</h1>
+                    <p>İletişim sayfasında gösterilen bilgileri düzenleyin</p>
+                </div>
+                
+                <!-- Success Message -->
+                <div class="alert alert-success" id="success-message" style="display: none; margin-bottom: 20px;">
+                    <i class="fas fa-check-circle"></i>
+                    <span>İletişim bilgileri başarıyla güncellendi!</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>İletişim Bilgileri</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="contact-address">Adres</label>
+                                <textarea class="form-control" id="contact-address" rows="2" placeholder="Şirket adresi"></textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="contact-phone">Telefon</label>
+                                        <input type="text" class="form-control" id="contact-phone" placeholder="+90 (216) 123 45 67">
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="contact-whatsapp">WhatsApp</label>
+                                        <input type="text" class="form-control" id="contact-whatsapp" placeholder="+90555123456">
+                                        <small>Numarayı, başında + işareti olacak şekilde, boşluk ve karakter kullanmadan girin.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-email">E-posta</label>
+                                <input type="email" class="form-control" id="contact-email" placeholder="info@onsalelektronik.com">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-20">
+                    <div class="card-header">
+                        <h2>Sosyal Medya</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="social-form">
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="social-instagram">Instagram</label>
+                                        <input type="text" class="form-control" id="social-instagram" placeholder="https://instagram.com/onsalelektronik">
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="social-facebook">Facebook</label>
+                                        <input type="text" class="form-control" id="social-facebook" placeholder="https://facebook.com/onsalelektronik">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="social-twitter">Twitter</label>
+                                        <input type="text" class="form-control" id="social-twitter" placeholder="https://twitter.com/onsalelektronik">
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="social-youtube">YouTube</label>
+                                        <input type="text" class="form-control" id="social-youtube" placeholder="https://youtube.com/onsalelektronik">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-20">
+                    <div class="card-header">
+                        <h2>Çalışma Saatleri</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="hours-form">
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="opening-weekdays">Pazartesi - Cuma</label>
+                                        <input type="text" class="form-control" id="opening-weekdays" placeholder="09:00 - 19:00">
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="opening-saturday">Cumartesi</label>
+                                        <input type="text" class="form-control" id="opening-saturday" placeholder="10:00 - 18:00">
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label for="opening-sunday">Pazar</label>
+                                        <input type="text" class="form-control" id="opening-sunday" placeholder="11:00 - 17:00">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card-footer mt-20" style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-secondary" id="reset-form-button">
+                        <i class="fas fa-undo"></i> Sıfırla
+                    </button>
+                    <button type="button" class="btn btn-primary" id="save-contact-button">
+                        <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                    </button>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/admin-helpers.js"></script>
+    <script src="../js/admin-navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form elemanları
+            const contactForm = document.getElementById('contact-form');
+            const socialForm = document.getElementById('social-form');
+            const hoursForm = document.getElementById('hours-form');
+            const saveButton = document.getElementById('save-contact-button');
+            const resetButton = document.getElementById('reset-form-button');
+            const successMessage = document.getElementById('success-message');
+            
+            // Mevcut ayarları yükle
+            loadContactSettings();
+            
+            // Kaydetme işlemi
+            saveButton.addEventListener('click', function() {
+                // Tüm formlardaki verileri topla
+                const contactSettings = {
+                    address: document.getElementById('contact-address').value,
+                    phone: document.getElementById('contact-phone').value,
+                    whatsapp: document.getElementById('contact-whatsapp').value,
+                    email: document.getElementById('contact-email').value,
+                    instagram: document.getElementById('social-instagram').value,
+                    facebook: document.getElementById('social-facebook').value,
+                    twitter: document.getElementById('social-twitter').value,
+                    youtube: document.getElementById('social-youtube').value,
+                    openingHours: {
+                        weekdays: document.getElementById('opening-weekdays').value,
+                        saturday: document.getElementById('opening-saturday').value,
+                        sunday: document.getElementById('opening-sunday').value
+                    }
+                };
+                
+                // LocalStorage'a kaydet
+                localStorage.setItem('contactSettings', JSON.stringify(contactSettings));
+                
+                // Başarı mesajını göster
+                successMessage.style.display = 'flex';
+                
+                // 3 saniye sonra mesajı gizle
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+            
+            // Formu sıfırlama
+            resetButton.addEventListener('click', function() {
+                if (confirm('Tüm değişiklikleriniz sıfırlanacak. Emin misiniz?')) {
+                    contactForm.reset();
+                    socialForm.reset();
+                    hoursForm.reset();
+                    loadContactSettings(); // Varsa kaydedilmiş ayarları tekrar yükle
+                }
+            });
+            
+            // Kaydedilmiş ayarları yükleme
+            function loadContactSettings() {
+                try {
+                    const contactSettings = JSON.parse(localStorage.getItem('contactSettings') || '{}');
+                    
+                    // Form alanlarını doldur
+                    if (contactSettings.address) document.getElementById('contact-address').value = contactSettings.address;
+                    if (contactSettings.phone) document.getElementById('contact-phone').value = contactSettings.phone;
+                    if (contactSettings.whatsapp) document.getElementById('contact-whatsapp').value = contactSettings.whatsapp;
+                    if (contactSettings.email) document.getElementById('contact-email').value = contactSettings.email;
+                    
+                    if (contactSettings.instagram) document.getElementById('social-instagram').value = contactSettings.instagram;
+                    if (contactSettings.facebook) document.getElementById('social-facebook').value = contactSettings.facebook;
+                    if (contactSettings.twitter) document.getElementById('social-twitter').value = contactSettings.twitter;
+                    if (contactSettings.youtube) document.getElementById('social-youtube').value = contactSettings.youtube;
+                    
+                    if (contactSettings.openingHours) {
+                        if (contactSettings.openingHours.weekdays) document.getElementById('opening-weekdays').value = contactSettings.openingHours.weekdays;
+                        if (contactSettings.openingHours.saturday) document.getElementById('opening-saturday').value = contactSettings.openingHours.saturday;
+                        if (contactSettings.openingHours.sunday) document.getElementById('opening-sunday').value = contactSettings.openingHours.sunday;
+                    }
+                } catch (error) {
+                    console.error('İletişim ayarları yüklenirken hata:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

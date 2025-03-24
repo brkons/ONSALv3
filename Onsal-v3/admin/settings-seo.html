@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Ayarları - Onsal Elektronik Yönetim</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Elektronik</h2>
+                <p>Yönetim Paneli</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Kontrol Paneli</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="products">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="products-list">
+                        <i class="fas fa-list"></i>
+                        <span>Ürün Listesi</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="products-add">
+                        <i class="fas fa-plus"></i>
+                        <span>Ürün Ekle</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="products-categories">
+                        <i class="fas fa-tags"></i>
+                        <span>Kategoriler</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="pages-home">
+                        <i class="fas fa-home"></i>
+                        <span>Ana Sayfa</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="pages-about">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Hakkımızda</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="pages-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>İletişim</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="media">
+                    <i class="fas fa-images"></i>
+                    <span>Medya</span>
+                </li>
+                
+                <li class="sidebar-menu-item active" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu open">
+                    <li class="sidebar-submenu-item" data-page="settings-general">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Genel Ayarlar</span>
+                    </li>
+                    <li class="sidebar-submenu-item active" data-page="settings-seo">
+                        <i class="fas fa-search"></i>
+                        <span>SEO Ayarları</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="settings-social">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Sosyal Medya</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="users">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış Yap</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="header-title">SEO Ayarları</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-user" id="header-user">
+                        <div class="header-user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="header-user-name">Admin</div>
+                        <i class="fas fa-chevron-down ml-2"></i>
+                        
+                        <div class="header-user-dropdown" id="header-user-dropdown">
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Profil</span>
+                            </a>
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Ayarlar</span>
+                            </a>
+                            <a href="index.html" class="header-user-dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <div class="alert alert-success" id="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Ayarlar başarıyla kaydedildi!</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Meta Etiketleri</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="meta-form">
+                            <div class="form-group">
+                                <label for="meta-title">Varsayılan Meta Başlık</label>
+                                <input type="text" id="meta-title" class="form-control" value="Onsal Elektronik - Kaliteli Elektronik Ürünlerin Adresi">
+                                <small class="form-text">Sayfa başlığı belirtilmediğinde kullanılacak varsayılan başlık.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meta-description">Varsayılan Meta Açıklama</label>
+                                <textarea id="meta-description" class="form-control" rows="3">Onsal Elektronik, televizyon, beyaz eşya, küçük ev aletleri ve kişisel bakım ürünleri gibi elektronik ürünlerin satışını yapan bir e-ticaret sitesidir.</textarea>
+                                <small class="form-text">Sayfa açıklaması belirtilmediğinde kullanılacak varsayılan açıklama.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meta-keywords">Varsayılan Meta Anahtar Kelimeler</label>
+                                <input type="text" id="meta-keywords" class="form-control" value="elektronik, televizyon, beyaz eşya, küçük ev aletleri, kişisel bakım">
+                                <small class="form-text">Virgülle ayırarak yazın. Sayfa anahtar kelimeleri belirtilmediğinde kullanılacak varsayılan anahtar kelimeler.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meta-robots">Meta Robots</label>
+                                <select id="meta-robots" class="form-control">
+                                    <option value="index, follow" selected>index, follow</option>
+                                    <option value="index, nofollow">index, nofollow</option>
+                                    <option value="noindex, follow">noindex, follow</option>
+                                    <option value="noindex, nofollow">noindex, nofollow</option>
+                                </select>
+                                <small class="form-text">Arama motorlarının sitenizi nasıl indeksleyeceğini belirler.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meta-viewport">Meta Viewport</label>
+                                <input type="text" id="meta-viewport" class="form-control" value="width=device-width, initial-scale=1.0">
+                                <small class="form-text">Mobil cihazlarda sitenizin nasıl görüntüleneceğini belirler.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meta-charset">Meta Charset</label>
+                                <input type="text" id="meta-charset" class="form-control" value="UTF-8">
+                                <small class="form-text">Sitenizin karakter kodlamasını belirler.</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Site Haritası ve Robots.txt</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="sitemap-form">
+                            <div class="form-group">
+                                <label for="sitemap-auto">Site Haritası Otomatik Oluştur</label>
+                                <div class="form-check">
+                                    <input type="checkbox" id="sitemap-auto" class="form-check-input" checked>
+                                    <label for="sitemap-auto" class="form-check-label">Etkinleştir</label>
+                                </div>
+                                <small class="form-text">Site haritasının otomatik olarak oluşturulmasını sağlar.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sitemap-frequency">Güncelleme Sıklığı</label>
+                                <select id="sitemap-frequency" class="form-control">
+                                    <option value="always">Her zaman</option>
+                                    <option value="hourly">Saatlik</option>
+                                    <option value="daily" selected>Günlük</option>
+                                    <option value="weekly">Haftalık</option>
+                                    <option value="monthly">Aylık</option>
+                                    <option value="yearly">Yıllık</option>
+                                    <option value="never">Asla</option>
+                                </select>
+                                <small class="form-text">Site haritasının ne sıklıkla güncelleneceğini belirler.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sitemap-priority">Öncelik</label>
+                                <select id="sitemap-priority" class="form-control">
+                                    <option value="0.1">0.1</option>
+                                    <option value="0.2">0.2</option>
+                                    <option value="0.3">0.3</option>
+                                    <option value="0.4">0.4</option>
+                                    <option value="0.5" selected>0.5</option>
+                                    <option value="0.6">0.6</option>
+                                    <option value="0.7">0.7</option>
+                                    <option value="0.8">0.8</option>
+                                    <option value="0.9">0.9</option>
+                                    <option value="1.0">1.0</option>
+                                </select>
+                                <small class="form-text">Sayfaların öncelik değerini belirler.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="robots-txt">Robots.txt İçeriği</label>
+                                <textarea id="robots-txt" class="form-control" rows="10">User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+Disallow: /trackback/
+Disallow: /feed/
+Disallow: /comments/
+Disallow: /category/*/*
+Disallow: */trackback/
+Disallow: */feed/
+Disallow: */comments/
+Disallow: /*?*
+Allow: /wp-content/uploads/
+
+Sitemap: https://www.onsalelektronik.com/sitemap.xml</textarea>
+                                <small class="form-text">Arama motorlarının sitenizin hangi bölümlerine erişebileceğini belirler.</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Analitik ve Doğrulama Kodları</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form id="analytics-form">
+                            <div class="form-group">
+                                <label for="google-analytics">Google Analytics Kodu</label>
+                                <textarea id="google-analytics" class="form-control" rows="5"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-XXXXXXXXX-X');
+</script></textarea>
+                                <small class="form-text">Google Analytics izleme kodunu buraya yapıştırın.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="google-search-console">Google Search Console Doğrulama Kodu</label>
+                                <input type="text" id="google-search-console" class="form-control" value="<meta name=&quot;google-site-verification&quot; content=&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot; />">
+                                <small class="form-text">Google Search Console doğrulama meta etiketini buraya yapıştırın.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="facebook-pixel">Facebook Pixel Kodu</label>
+                                <textarea id="facebook-pixel" class="form-control" rows="5"><!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'XXXXXXXXXXXX');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=XXXXXXXXXXXX&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code --></textarea>
+                                <small class="form-text">Facebook Pixel izleme kodunu buraya yapıştırın.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="custom-head">Özel Head Kodları</label>
+                                <textarea id="custom-head" class="form-control" rows="5"><!-- Özel Head Kodları -->
+<!-- Buraya eklemek istediğiniz diğer head kodlarını yazabilirsiniz --></textarea>
+                                <small class="form-text">Head etiketine eklemek istediğiniz özel kodları buraya yazın.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="custom-body">Özel Body Kodları</label>
+                                <textarea id="custom-body" class="form-control" rows="5"><!-- Özel Body Kodları -->
+<!-- Buraya eklemek istediğiniz diğer body kodlarını yazabilirsiniz --></textarea>
+                                <small class="form-text">Body etiketinin sonuna eklemek istediğiniz özel kodları buraya yazın.</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card-footer" style="margin-top: 20px; background-color: var(--white-color); padding: 15px; border-radius: 5px; box-shadow: 0 5px 15px var(--shadow-color); display: flex; justify-content: flex-end;">
+                    <button type="button" class="btn btn-light" id="reset-button" style="margin-right: 10px;">
+                        <i class="fas fa-undo"></i> Sıfırla
+                    </button>
+                    
+                    <button type="button" class="btn btn-primary" id="save-button">
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Sidebar Menu Toggle
+            const menuItems = document.querySelectorAll('.sidebar-menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const submenu = this.nextElementSibling;
+                    
+                    if (submenu && submenu.classList.contains('sidebar-submenu')) {
+                        submenu.classList.toggle('open');
+                        this.classList.toggle('active');
+                    } else {
+                        menuItems.forEach(menuItem => {
+                            menuItem.classList.remove('active');
+                        });
+                        
+                        this.classList.add('active');
+                        
+                        // Redirect to page
+                        const page = this.getAttribute('data-page');
+                        
+                        if (page === 'logout') {
+                            localStorage.removeItem('adminLoggedIn');
+                            window.location.href = 'index.html';
+                        } else if (page !== 'settings') {
+                            window.location.href = page + '.html';
+                        }
+                    }
+                });
+            });
+            
+            // Submenu Items
+            const submenuItems = document.querySelectorAll('.sidebar-submenu-item');
+            
+            submenuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    submenuItems.forEach(submenuItem => {
+                        submenuItem.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
+                    
+                    // Redirect to page
+                    const page = this.getAttribute('data-page');
+                    
+                    if (page !== 'settings-seo') {
+                        window.location.href = page + '.html';
+                    }
+                });
+            });
+            
+            // Header User Dropdown
+            const headerUser = document.getElementById('header-user');
+            const headerUserDropdown = document.getElementById('header-user-dropdown');
+            
+            headerUser.addEventListener('click', function(e) {
+                e.stopPropagation();
+                headerUserDropdown.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!headerUser.contains(e.target)) {
+                    headerUserDropdown.classList.remove('show');
+                }
+            });
+            
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            
+            if (!isLoggedIn) {
+                window.location.href = 'index.html';
+            }
+            
+            // Save Button
+            const saveButton = document.getElementById('save-button');
+            const resetButton = document.getElementById('reset-button');
+            const successMessage = document.getElementById('success-message');
+            
+            saveButton.addEventListener('click', function() {
+                // Demo save
+                successMessage.style.display = 'flex';
+                
+                // Scroll to top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Hide success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+            
+            // Reset Button
+            resetButton.addEventListener('click', function() {
+                if (confirm('Tüm değişiklikleriniz sıfırlanacak. Emin misiniz?')) {
+                    // Reset all forms
+                    document.getElementById('meta-form').reset();
+                    document.getElementById('sitemap-form').reset();
+                    document.getElementById('analytics-form').reset();
+                    
+                    // Reset checkboxes
+                    document.getElementById('sitemap-auto').checked = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onsal Elektronik</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Uploads yönetimi için yardımcı fonksiyonlar
+        const UploadHandler = {
+            getUploadedFile: function(path) {
+                if (!path || !path.startsWith('uploads/')) return null;
+                
+                try {
+                    const uploads = JSON.parse(localStorage.getItem('uploaded_files') || '{}');
+                    return uploads[path] || null;
+                } catch (error) {
+                    console.error('Yüklenen dosya alınamadı:', error);
+                    return null;
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+    <header class="header-transparent">
+        <nav>
+            <div class="logo">
+                <a href="index.html">ONSAL</a>
+            </div>
+            <div class="menu-center">
+                <a href="kategori-televizyon.html" class="menu-item">Televizyon</a>
+                <a href="kategori-beyaz-esya.html" class="menu-item">Beyaz Eşya</a>
+                <a href="kategori-kucuk-ev-aletleri.html" class="menu-item">Küçük Ev Aletleri</a>
+                <a href="kategori-kisisel-bakim.html" class="menu-item">Kişisel Bakım</a>
+            </div>
+            <div class="menu-right">
+                <a href="iletisim.html" class="contact-icon" title="İletişim">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <button class="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="mobile-menu-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="kategori-televizyon.html">Televizyon</a>
+        <a href="kategori-beyaz-esya.html">Beyaz Eşya</a>
+        <a href="kategori-kucuk-ev-aletleri.html">Küçük Ev Aletleri</a>
+        <a href="kategori-kisisel-bakim.html">Kişisel Bakım</a>
+        <a href="iletisim.html">İletişim</a>
+    </div>
+
+    <div class="overlay"></div>
+
+    <main>
+        <!-- Hero Section - Tesla Style -->
+        <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&q=80')">
+            <div class="hero-content">
+                <h1>Onsal Elektronik</h1>
+                <p>Kaliteli ürünler, uygun fiyatlar ve profesyonel hizmet</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary">Ürünleri Keşfet</a>
+                    <a href="https://wa.me/905551234567" class="btn-secondary">İletişime Geç</a>
+                </div>
+            </div>
+            <div class="hero-scroll">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Beyaz Eşya Category - Tesla Style -->
+        <section class="category-section" style="background-image: url('https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&q=80')">
+            <div class="category-content">
+                <h2>Beyaz Eşya</h2>
+                <p>En yeni teknoloji beyaz eşyalar ve en uygun fiyatlar</p>
+                <div class="hero-buttons">
+                    <a href="kategori-beyaz-esya.html" class="btn-primary">Ürünleri İncele</a>
+                    <div class="category-buttons">
+                        <a href="https://wa.me/905551234567" class="category-button whatsapp-button" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+902161234567" class="category-button call-button">
+                            <i class="fas fa-phone"></i> Ara
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Televizyon Category - Tesla Style -->
+        <section class="category-section" style="background-image: url('https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80')">
+            <div class="category-content">
+                <h2>Televizyon</h2>
+                <p>En yeni teknoloji televizyonlar ve en uygun fiyatlar</p>
+                <div class="hero-buttons">
+                    <a href="kategori-televizyon.html" class="btn-primary">Ürünleri İncele</a>
+                    <div class="category-buttons">
+                        <a href="https://wa.me/905551234567" class="category-button whatsapp-button" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+902161234567" class="category-button call-button">
+                            <i class="fas fa-phone"></i> Ara
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Küçük Ev Aletleri Category - Tesla Style -->
+        <section class="category-section" style="background-image: url('https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&q=80')">
+            <div class="category-content">
+                <h2>Küçük Ev Aletleri</h2>
+                <p>En yeni teknoloji küçük ev aletleri ve en uygun fiyatlar</p>
+                <div class="hero-buttons">
+                    <a href="kategori-kucuk-ev-aletleri.html" class="btn-primary">Ürünleri İncele</a>
+                    <div class="category-buttons">
+                        <a href="https://wa.me/905551234567" class="category-button whatsapp-button" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+902161234567" class="category-button call-button">
+                            <i class="fas fa-phone"></i> Ara
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kişisel Bakım Category - Tesla Style -->
+        <section class="category-section" style="background-image: url('https://images.unsplash.com/photo-1522338140262-f46f5913618a?auto=format&fit=crop&q=80')">
+            <div class="category-content">
+                <h2>Kişisel Bakım Ürünleri</h2>
+                <p>En yeni teknoloji kişisel bakım ürünleri ve en uygun fiyatlar</p>
+                <div class="hero-buttons">
+                    <a href="kategori-kisisel-bakim.html" class="btn-primary">Ürünleri İncele</a>
+                    <div class="category-buttons">
+                        <a href="https://wa.me/905551234567" class="category-button whatsapp-button" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+902161234567" class="category-button call-button">
+                            <i class="fas fa-phone"></i> Ara
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="tel:+902161234567">+90 (216) 123 45 67</a>
+            <span>|</span>
+            <span>© 2024 Onsal Elektronik</span>
+            <span>|</span>
+            <a href="iletisim.html">İletişim</a>
+            
+            <div class="social-links">
+                <a href="https://wa.me/905551234567">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://instagram.com/onsalelektronik">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script src="js/product-manager.js"></script>
+    <script>
+        // Tesla-style scroll behavior and header transparency
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileMenuClose = document.querySelector('.mobile-menu-close');
+            const overlay = document.querySelector('.overlay');
+            const scrollToTopButton = document.querySelector('.scroll-to-top');
+
+            // Header transparency on scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.remove('header-transparent');
+                    header.classList.add('header-solid');
+                    scrollToTopButton.classList.add('visible');
+                } else {
+                    header.classList.add('header-transparent');
+                    header.classList.remove('header-solid');
+                    scrollToTopButton.classList.remove('visible');
+                }
+            });
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            mobileMenuClose.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            overlay.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // Scroll to top
+            scrollToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Kategori verilerini yükleme
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Ana sayfadaki kategorileri güncelle
+                updateCategoryContent();
+            } catch (error) {
+                console.error("Kategori verilerini yüklerken hata:", error);
+            }
+        });
+        
+        // Kategori içeriğini güncelleme fonksiyonu
+        function updateCategoryContent() {
+            const categories = JSON.parse(localStorage.getItem('categories')) || {};
+            console.log("Yüklenen kategoriler:", categories);
+            
+            // Tüm kategori bölümlerini seç
+            const categoryContainers = document.querySelectorAll('.category-section');
+            
+            // Televizyon kategorisi - ikinci sıradaki .category-section
+            if (categories.tv && categoryContainers.length >= 2) {
+                const tvSection = categoryContainers[1]; // 0-tabanlı index, ikinci eleman için 1
+                
+                const title = tvSection.querySelector('h2');
+                const desc = tvSection.querySelector('p');
+                const whatsappBtn = tvSection.querySelector('.whatsapp-button');
+                const callBtn = tvSection.querySelector('.call-button');
+                
+                if (title && categories.tv.title) title.textContent = categories.tv.title;
+                if (desc && categories.tv.description) desc.textContent = categories.tv.description;
+                
+                if (whatsappBtn && categories.tv.whatsapp) {
+                    whatsappBtn.href = `https://wa.me/${categories.tv.whatsapp}`;
+                }
+                
+                if (callBtn && categories.tv.phone) {
+                    callBtn.href = `tel:${categories.tv.phone}`;
+                }
+                
+                // Arka plan resmini değiştirme (varsa)
+                if (categories.tv.image) {
+                    // Eğer uploads dosyasıysa ve localStorage'da bulunuyorsa
+                    if (categories.tv.image.startsWith('uploads/')) {
+                        const dataUrl = UploadHandler.getUploadedFile(categories.tv.image);
+                        if (dataUrl) {
+                            tvSection.style.backgroundImage = `url(${dataUrl})`;
+                            return;
+                        }
+                    }
+                    
+                    tvSection.style.backgroundImage = `url(${categories.tv.image})`;
+                }
+            }
+            
+            // Beyaz Eşya kategorisi - ilk sıradaki .category-section
+            if (categories.beyazEsya && categoryContainers.length >= 1) {
+                const beSection = categoryContainers[0]; // 0-tabanlı index, ilk eleman
+                
+                const title = beSection.querySelector('h2');
+                const desc = beSection.querySelector('p');
+                const whatsappBtn = beSection.querySelector('.whatsapp-button');
+                const callBtn = beSection.querySelector('.call-button');
+                
+                if (title && categories.beyazEsya.title) title.textContent = categories.beyazEsya.title;
+                if (desc && categories.beyazEsya.description) desc.textContent = categories.beyazEsya.description;
+                
+                if (whatsappBtn && categories.beyazEsya.whatsapp) {
+                    whatsappBtn.href = `https://wa.me/${categories.beyazEsya.whatsapp}`;
+                }
+                
+                if (callBtn && categories.beyazEsya.phone) {
+                    callBtn.href = `tel:${categories.beyazEsya.phone}`;
+                }
+                
+                // Arka plan resmini değiştirme (varsa)
+                if (categories.beyazEsya.image) {
+                    beSection.style.backgroundImage = `url(${categories.beyazEsya.image})`;
+                }
+            }
+            
+            // Diğer kategoriler için benzer şekilde...
+        }
+
+        // Sayfa yüklendiğinde site ayarlarını uygula
+        document.addEventListener('DOMContentLoaded', function() {
+            applySiteSettings();
+        });
+        
+        // Site ayarlarını uygulama fonksiyonu
+        function applySiteSettings() {
+            const settings = JSON.parse(localStorage.getItem('site_settings') || '{}');
+            
+            // Site başlığı
+            if (settings.site_title) {
+                document.title = settings.site_title;
+            }
+            
+            // Favicon
+            if (settings.favicon) {
+                const faviconLink = document.querySelector('link[rel="icon"]') || document.createElement('link');
+                faviconLink.rel = 'icon';
+                faviconLink.type = 'image/x-icon';
+                
+                if (settings.favicon.startsWith('uploads/')) {
+                    const faviconData = UploadHandler.getUploadedFile(settings.favicon);
+                    if (faviconData) {
+                        faviconLink.href = faviconData;
+                    }
+                } else {
+                    faviconLink.href = settings.favicon;
+                }
+                
+                if (!document.querySelector('link[rel="icon"]')) {
+                    document.head.appendChild(faviconLink);
+                }
+            }
+            
+            // Logo
+            if (settings.logo) {
+                const logo = document.querySelector('.site-logo img');
+                if (logo) {
+                    if (settings.logo.startsWith('uploads/')) {
+                        const logoData = UploadHandler.getUploadedFile(settings.logo);
+                        if (logoData) {
+                            logo.src = logoData;
+                        }
+                    } else {
+                        logo.src = settings.logo;
+                    }
+                }
+            }
+            
+            // Diğer ayarlar
+            // Örnek: WhatsApp numarası
+            if (settings.social_whatsapp) {
+                const whatsappLinks = document.querySelectorAll('a[href^="https://wa.me"]');
+                whatsappLinks.forEach(link => {
+                    link.href = `https://wa.me/${settings.social_whatsapp}`;
+                });
+            }
+            
+            // Footer telefon numarası
+            if (settings.site_phone) {
+                const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+                phoneLinks.forEach(link => {
+                    link.href = `tel:${settings.site_phone}`;
+                    if (link.textContent.includes('+')) {
+                        link.textContent = settings.site_phone;
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Admin panelinden eklenen ürünleri göster
+            if (typeof ProductManager !== 'undefined') {
+                const allProducts = ProductManager.getAllProducts();
+                const activeProducts = allProducts.filter(p => p.status === 'active').slice(0, 4);
+
+                const productContainer = document.querySelector('.featured-products');
+                if (productContainer && activeProducts.length > 0) {
+                    // Mevcut ürünleri temizle
+                    productContainer.innerHTML = '';
+                    
+                    // Yeni ürünleri ekle
+                    activeProducts.forEach(product => {
+                        let imageUrl = 'https://via.placeholder.com/300x300?text=Ürün+Görseli';
+                        if (product.images && product.images.length > 0) {
+                            if (product.images[0].startsWith('uploads/')) {
+                                const imageData = UploadHandler.getUploadedFile(product.images[0]);
+                                if (imageData) {
+                                    imageUrl = imageData;
+                                }
+                            } else {
+                                imageUrl = product.images[0];
+                            }
+                        }
+                        
+                        const productElement = document.createElement('div');
+                        productElement.className = 'featured-product';
+                        
+                        productElement.innerHTML = `
+                            <div class="product-image">
+                                <img src="${imageUrl}" alt="${product.name}">
+                            </div>
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                <p class="product-price">${product.price} TL</p>
+                                <a href="urun-detay.html?id=${product.id}" class="btn-primary">İncele</a>
+                            </div>
+                        `;
+                        
+                        productContainer.appendChild(productElement);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

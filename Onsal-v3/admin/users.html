@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcılar - Onsal Elektronik Yönetim</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Onsal Elektronik</h2>
+                <p>Yönetim Paneli</p>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Kontrol Paneli</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="products">
+                    <i class="fas fa-box"></i>
+                    <span>Ürünler</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="products-list">
+                        <i class="fas fa-list"></i>
+                        <span>Ürün Listesi</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="products-add">
+                        <i class="fas fa-plus"></i>
+                        <span>Ürün Ekle</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="products-categories">
+                        <i class="fas fa-tags"></i>
+                        <span>Kategoriler</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="pages">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sayfalar</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="pages-home">
+                        <i class="fas fa-home"></i>
+                        <span>Ana Sayfa</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="pages-about">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Hakkımızda</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="pages-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>İletişim</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item" data-page="media">
+                    <i class="fas fa-images"></i>
+                    <span>Medya</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </li>
+                <ul class="sidebar-submenu">
+                    <li class="sidebar-submenu-item" data-page="settings-general">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Genel Ayarlar</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="settings-seo">
+                        <i class="fas fa-search"></i>
+                        <span>SEO Ayarları</span>
+                    </li>
+                    <li class="sidebar-submenu-item" data-page="settings-social">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Sosyal Medya</span>
+                    </li>
+                </ul>
+                
+                <li class="sidebar-menu-item active" data-page="users">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </li>
+                
+                <li class="sidebar-menu-item" data-page="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış Yap</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="header-title">Kullanıcılar</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-user" id="header-user">
+                        <div class="header-user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="header-user-name">Admin</div>
+                        <i class="fas fa-chevron-down ml-2"></i>
+                        
+                        <div class="header-user-dropdown" id="header-user-dropdown">
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Profil</span>
+                            </a>
+                            <a href="#" class="header-user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Ayarlar</span>
+                            </a>
+                            <a href="index.html" class="header-user-dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <div class="row" style="display: flex; gap: 20px;">
+                    <!-- Users List -->
+                    <div class="col" style="flex: 2;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Kullanıcı Listesi</h2>
+                                <div class="card-actions">
+                                    <button type="button" class="btn btn-primary" id="add-user-button">
+                                        <i class="fas fa-plus"></i> Yeni Kullanıcı
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="alert alert-success" id="success-message" style="display: none;">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>İşlem başarıyla tamamlandı!</span>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 50px;">#</th>
+                                                <th style="width: 80px;">Avatar</th>
+                                                <th>Kullanıcı Adı</th>
+                                                <th>E-posta</th>
+                                                <th>Rol</th>
+                                                <th>Son Giriş</th>
+                                                <th style="width: 120px;">İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background-color: var(--primary-color); color: var(--white-color); display: flex; align-items: center; justify-content: center;">
+                                                        <i class="fas fa-user"></i>
+                                                    </div>
+                                                </td>
+                                                <td>admin</td>
+                                                <td>admin@onsalelektronik.com</td>
+                                                <td><span class="badge badge-primary">Yönetici</span></td>
+                                                <td>12.05.2024 14:30</td>
+                                                <td>
+                                                    <div class="table-actions">
+                                                        <button type="button" class="table-action edit" data-id="1" title="Düzenle">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="table-action delete" data-id="1" title="Sil" disabled>
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>
+                                                    <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background-color: var(--success-color); color: var(--white-color); display: flex; align-items: center; justify-content: center;">
+                                                        <i class="fas fa-user"></i>
+                                                    </div>
+                                                </td>
+                                                <td>editor</td>
+                                                <td>editor@onsalelektronik.com</td>
+                                                <td><span class="badge badge-success">Editör</span></td>
+                                                <td>10.05.2024 09:15</td>
+                                                <td>
+                                                    <div class="table-actions">
+                                                        <button type="button" class="table-action edit" data-id="2" title="Düzenle">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="table-action delete" data-id="2" title="Sil">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Form -->
+                    <div class="col" style="flex: 1;">
+                        <div class="card" id="user-form-card">
+                            <div class="card-header">
+                                <h2 class="card-title" id="user-form-title">Yeni Kullanıcı Ekle</h2>
+                            </div>
+                            
+                            <div class="card-body">
+                                <form id="user-form">
+                                    <input type="hidden" id="user-id" value="">
+                                    
+                                    <div class="form-group">
+                                        <label for="user-username">Kullanıcı Adı <span class="text-danger">*</span></label>
+                                        <input type="text" id="user-username" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="user-email">E-posta <span class="text-danger">*</span></label>
+                                        <input type="email" id="user-email" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="user-password">Şifre <span class="text-danger" id="password-required">*</span></label>
+                                        <div style="position: relative;">
+                                            <input type="password" id="user-password" class="form-control" required>
+                                            <i class="fas fa-eye-slash" id="toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+                                        </div>
+                                        <small class="form-text" id="password-hint">Şifre en az 8 karakter olmalıdır.</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="user-role">Rol <span class="text-danger">*</span></label>
+                                        <select id="user-role" class="form-control" required>
+                                            <option value="">Rol Seçin</option>
+                                            <option value="admin">Yönetici</option>
+                                            <option value="editor">Editör</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Avatar</label>
+                                        
+                                        <div class="file-upload">
+                                            <input type="file" id="user-avatar" class="file-upload-input" accept="image/*">
+                                            <div class="file-upload-button">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span>Avatar Yüklemek İçin Tıklayın</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="user-avatar-preview" id="user-avatar-preview" style="margin-top: 15px; display: none;">
+                                            <div style="position: relative; width: 100px; height: 100px; border-radius: 50%; overflow: hidden;">
+                                                <img id="user-avatar-preview-img" src="" alt="Kullanıcı Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                                                <button type="button" id="user-avatar-remove" style="position: absolute; top: 5px; right: 5px; background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-light" id="cancel-button">
+                                    <i class="fas fa-times"></i> İptal
+                                </button>
+                                
+                                <button type="button" class="btn btn-primary" id="save-button">
+                                    <i class="fas fa-save"></i> Kaydet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <p>&copy; 2024 Onsal Elektronik. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Kullanıcı Sil</h3>
+                <button type="button" class="modal-close" id="delete-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p>Bu kullanıcıyı silmek istediğinize emin misiniz?</p>
+                <p>Bu işlem geri alınamaz.</p>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" id="delete-modal-cancel">
+                    <i class="fas fa-times"></i> İptal
+                </button>
+                
+                <button type="button" class="btn btn-danger" id="delete-modal-confirm">
+                    <i class="fas fa-trash"></i> Sil
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Sidebar Menu Toggle
+            const menuItems = document.querySelectorAll('.sidebar-menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const submenu = this.nextElementSibling;
+                    
+                    if (submenu && submenu.classList.contains('sidebar-submenu')) {
+                        submenu.classList.toggle('open');
+                        this.classList.toggle('active');
+                    } else {
+                        menuItems.forEach(menuItem => {
+                            menuItem.classList.remove('active');
+                        });
+                        
+                        this.classList.add('active');
+                        
+                        // Redirect to page
+                        const page = this.getAttribute('data-page');
+                        
+                        if (page === 'logout') {
+                            localStorage.removeItem('adminLoggedIn');
+                            window.location.href = 'index.html';
+                        } else if (page !== 'users') {
+                            window.location.href = page + '.html';
+                        }
+                    }
+                });
+            });
+            
+            // Submenu Items
+            const submenuItems = document.querySelectorAll('.sidebar-submenu-item');
+            
+            submenuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    submenuItems.forEach(submenuItem => {
+                        submenuItem.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
+                    
+                    // Redirect to page
+                    const page = this.getAttribute('data-page');
+                    window.location.href = page + '.html';
+                });
+            });
+            
+            // Header User Dropdown
+            const headerUser = document.getElementById('header-user');
+            const headerUserDropdown = document.getElementById('header-user-dropdown');
+            
+            headerUser.addEventListener('click', function(e) {
+                e.stopPropagation();
+                headerUserDropdown.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!headerUser.contains(e.target)) {
+                    headerUserDropdown.classList.remove('show');
+                }
+            });
+            
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            
+            if (!isLoggedIn) {
+                window.location.href = 'index.html';
+            }
+            
+            // User Form
+            const userForm = document.getElementById('user-form');
+            const userFormCard = document.getElementById('user-form-card');
+            const userFormTitle = document.getElementById('user-form-title');
+            const userId = document.getElementById('user-id');
+            const userUsername = document.getElementById('user-username');
+            const userEmail = document.getElementById('user-email');
+            const userPassword = document.getElementById('user-password');
+            const passwordRequired = document.getElementById('password-required');
+            const passwordHint = document.getElementById('password-hint');
+            const userRole = document.getElementById('user-role');
+            const userAvatar = document.getElementById('user-avatar');
+            const userAvatarPreview = document.getElementById('user-avatar-preview');
+            const userAvatarPreviewImg = document.getElementById('user-avatar-preview-img');
+            const userAvatarRemove = document.getElementById('user-avatar-remove');
+            const togglePassword = document.getElementById('toggle-password');
+            const addUserButton = document.getElementById('add-user-button');
+            const saveButton = document.getElementById('save-button');
+            const cancelButton = document.getElementById('cancel-button');
+            const successMessage = document.getElementById('success-message');
+            const editButtons = document.querySelectorAll('.table-action.edit');
+            const deleteButtons = document.querySelectorAll('.table-action.delete:not([disabled])');
+            const deleteModal = document.getElementById('delete-modal');
+            const deleteModalClose = document.getElementById('delete-modal-close');
+            const deleteModalCancel = document.getElementById('delete-modal-cancel');
+            const deleteModalConfirm = document.getElementById('delete-modal-confirm');
+            
+            // Toggle Password Visibility
+            togglePassword.addEventListener('click', function() {
+                const type = userPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                userPassword.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+            
+            // User Avatar Preview
+            userAvatar.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        userAvatarPreviewImg.src = e.target.result;
+                        userAvatarPreview.style.display = 'block';
+                    };
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // User Avatar Remove
+            userAvatarRemove.addEventListener('click', function() {
+                userAvatar.value = '';
+                userAvatarPreview.style.display = 'none';
+            });
+            
+            // Add User Button
+            addUserButton.addEventListener('click', function() {
+                resetUserForm();
+                userFormTitle.textContent = 'Yeni Kullanıcı Ekle';
+                userFormCard.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Edit User Buttons
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    
+                    // Demo data
+                    const users = [
+                        { id: '1', username: 'admin', email: 'admin@onsalelektronik.com', role: 'admin' },
+                        { id: '2', username: 'editor', email: 'editor@onsalelektronik.com', role: 'editor' }
+                    ];
+                    
+                    const user = users.find(u => u.id === id);
+                    
+                    if (user) {
+                        userId.value = user.id;
+                        userUsername.value = user.username;
+                        userEmail.value = user.email;
+                        userRole.value = user.role;
+                        
+                        // Password is not required when editing
+                        userPassword.removeAttribute('required');
+                        passwordRequired.style.display = 'none';
+                        passwordHint.textContent = 'Şifreyi değiştirmek istemiyorsanız boş bırakın.';
+                        
+                        // Demo avatar
+                        if (user.id === '1') {
+                            userAvatarPreviewImg.src = 'https://via.placeholder.com/100x100?text=Admin';
+                        } else {
+                            userAvatarPreviewImg.src = 'https://via.placeholder.com/100x100?text=Editor';
+                        }
+                        userAvatarPreview.style.display = 'block';
+                        
+                        userFormTitle.textContent = 'Kullanıcı Düzenle: ' + user.username;
+                        userFormCard.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            // Delete User Buttons
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    deleteModalConfirm.setAttribute('data-id', id);
+                    deleteModal.classList.add('show');
+                });
+            });
+            
+            // Delete Modal Close
+            deleteModalClose.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            // Delete Modal Cancel
+            deleteModalCancel.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            // Delete Modal Confirm
+            deleteModalConfirm.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                
+                // Demo delete
+                deleteModal.classList.remove('show');
+                
+                successMessage.innerHTML = '<i class="fas fa-check-circle"></i><span>Kullanıcı başarıyla silindi!</span>';
+                successMessage.style.display = 'flex';
+                
+                // Hide success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+            
+            // Save Button
+            saveButton.addEventListener('click', function() {
+                // Form validation
+                let isValid = true;
+                
+                if (!userUsername.value) {
+                    userUsername.style.borderColor = 'var(--danger-color)';
+                    isValid = false;
+                } else {
+                    userUsername.style.borderColor = 'var(--border-color)';
+                }
+                
+                if (!userEmail.value) {
+                    userEmail.style.borderColor = 'var(--danger-color)';
+                    isValid = false;
+                } else {
+                    userEmail.style.borderColor = 'var(--border-color)';
+                }
+                
+                if (!userId.value && !userPassword.value) {
+                    userPassword.style.borderColor = 'var(--danger-color)';
+                    isValid = false;
+                } else {
+                    userPassword.style.borderColor = 'var(--border-color)';
+                }
+                
+                if (!userRole.value) {
+                    userRole.style.borderColor = 'var(--danger-color)';
+                    isValid = false;
+                } else {
+                    userRole.style.borderColor = 'var(--border-color)';
+                }
+                
+                if (!isValid) {
+                    return;
+                }
+                
+                // Demo save
+                if (userId.value) {
+                    successMessage.innerHTML = '<i class="fas fa-check-circle"></i><span>Kullanıcı başarıyla güncellendi!</span>';
+                } else {
+                    successMessage.innerHTML = '<i class="fas fa-check-circle"></i><span>Kullanıcı başarıyla eklendi!</span>';
+                }
+                
+                successMessage.style.display = 'flex';
+                
+                // Hide success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000);
+                
+                // Reset form
+                resetUserForm();
+            });
+            
+            // Cancel Button
+            cancelButton.addEventListener('click', function() {
+                resetUserForm();
+            });
+            
+            // Reset User Form
+            function resetUserForm() {
+                userId.value = '';
+                userUsername.value = '';
+                userEmail.value = '';
+                userPassword.value = '';
+                userPassword.setAttribute('required', '');
+                passwordRequired.style.display = 'inline';
+                passwordHint.textContent = 'Şifre en az 8 karakter olmalıdır.';
+                userRole.value = '';
+                userAvatar.value = '';
+                userAvatarPreview.style.display = 'none';
+                userFormTitle.textContent = 'Yeni Kullanıcı Ekle';
+                
+                // Reset border colors
+                userUsername.style.borderColor = 'var(--border-color)';
+                userEmail.style.borderColor = 'var(--border-color)';
+                userPassword.style.borderColor = 'var(--border-color)';
+                userRole.style.borderColor = 'var(--border-color)';
+            }
+        });
+    </script>
+</body>
+</html> 
